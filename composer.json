@@ -1,0 +1,50 @@
+{
+    "name": "intermax/laravel-api",
+    "description": "Reusable filters, resources and other API tools.",
+    "keywords": ["api", "json:api", "laravel"],
+    "authors": [
+        {
+            "name": "Patrick Hoogkamer",
+            "email": "p.hoogkamer@intermax.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.4.0",
+        "laravel/framework": "^7.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "nunomaduro/larastan": "^0.5",
+        "orchestra/testbench": "^5.0",
+        "phpstan/phpstan": "^0.12.3",
+        "phpunit/phpunit": "^8.5.1 || ^9.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Intermax\\LaravelApi\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix -v",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "phpunit --colors=always",
+        "test:lint": "php-cs-fixer fix -v --dry-run",
+        "test": [
+            "@test:lint",
+            "@test:unit",
+            "@test:types"
+        ]
+    }
+}
