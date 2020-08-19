@@ -11,7 +11,8 @@
     "require": {
         "php": "^7.4.0",
         "laravel/framework": "^7.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "intermax/laravel-open-api": "dev-1-move-files-from-time-api-to-this-package"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -46,5 +47,11 @@
             "@test:unit",
             "@test:types"
         ]
+    },
+    "repositories": {
+        "intermax": {
+            "type": "composer",
+            "url": "https://development.intermax-pages.nl/tools/composer-repository/"
+        }
     }
 }
