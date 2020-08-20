@@ -2,6 +2,7 @@
 
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -13,25 +14,19 @@ abstract class JsonApiResource extends JsonResource
 {
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return array
      * @throws ReflectionException
      */
-    public function toResponse($request)
+    final public function toArray($request)
     {
-        $data = $this->resolve($request);
+        $data = $this->data($request);
 
         $data = $this->transformToJsonApi($data);
 
-        $json = array_merge_recursive(
-            [
-                static::$wrap => $data
-            ],
-            $this->with($request),
-            $this->additional
-        );
-
-        return response()->json($json);
+        return $data;
     }
+
+    abstract public function data($request);
 
     /**
      * @param $data
