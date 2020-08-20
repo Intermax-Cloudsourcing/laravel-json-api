@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Intermax\\LaravelApi\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -43,9 +43,7 @@
         "test:unit": "phpunit --colors=always",
         "test:lint": "php-cs-fixer fix -v --dry-run",
         "test": [
-            "@test:lint",
-            "@test:unit",
-            "@test:types"
+            "@test:unit"
         ]
     },
     "repositories": {
