@@ -2,9 +2,11 @@
 
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
@@ -12,7 +14,18 @@ use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 
 abstract class JsonApiResource extends JsonResource
 {
-    protected ?array $included = null;
+    protected array $included = [];
+
+    private bool $resourceIsEloquent = false;
+
+    public function __construct($resource)
+    {
+        if ($resource instanceof Model) {
+            $this->resourceIsEloquent = true;
+        }
+
+        parent::__construct($resource);
+    }
 
     /**
      * @param Request $request
@@ -35,14 +48,14 @@ abstract class JsonApiResource extends JsonResource
     {
         $parentWith = parent::with($request);
 
-        if (!$this->included) {
+        if (empty($this->included)) {
             return $parentWith;
         }
 
         return array_merge_recursive(
             $parentWith,
             [
-                'included' => $this->included
+                'included' => array_unique($this->included, SORT_REGULAR)
             ]
         );
     }
@@ -59,8 +72,14 @@ abstract class JsonApiResource extends JsonResource
      * Expects an array of relation names as keys, and if it's a collection or object as the value. The resource will
      * automatically try to derive relation data (and possibly includes) from $this->resource. Example:
      * [
-     *     'comments' => RelationType::MANY,
-     *     'author' => RelationType::ONE
+     *     'comments' => [
+     *         'type' => RelationType::MANY,
+     *         'links' => ['related' => route(...)]
+     *     ],
+     *     'author' => [
+     *         'type' => RelationType::ONE,
+     *         'links' => ...
+     *     ]
      * ]
      *
      * @param $request
@@ -103,10 +122,56 @@ abstract class JsonApiResource extends JsonResource
 
     protected function discoverRelations(Request $request): ?array
     {
-        $relations = $this->getRelations($request);
+        $definedRelations = $this->getRelations($request);
 
-        if (empty($relations)) {
+        if (empty($definedRelations)) {
             return null;
         }
+
+        $relations = [];
+
+        foreach ($definedRelations as $definedRelation => $values) {
+            $relation = [];
+
+            if (isset($values['links'])) {
+                $relation = [
+                    'links' => $values['links']
+                ];
+            }
+
+            if (
+                ($this->resourceIsEloquent && $this->resource->relationLoaded($definedRelation))
+                || (!$this->resourceIsEloquent && isset($this->resource->$definedRelation))
+            ) {
+                $resourceClass = $values['resource'];
+
+                /** @var JsonApiCollectionResource $resource */
+                $resource = new $resourceClass($this->resource->$definedRelation);
+
+                $resolvedResource = $resource->resolve();
+
+                if ($values['type'] === RelationType::MANY) {
+                    $this->included = array_merge($this->included, $resolvedResource);
+
+                    $relation['data'] = array_map(
+                        fn($element) => Arr::only($element, ['type', 'id']),
+                        $resolvedResource
+                    );
+                } else {
+                    $this->included[] = $resolvedResource;
+                    $relation['data'] = Arr::only($resolvedResource, ['type', 'id']);
+                }
+            }
+
+            if (!isset($relation['links'])) {
+                $relation['meta'] = [
+                    'hasLinks' => false
+                ];
+            }
+
+            $relations[$definedRelation] = $relation;
+        }
+
+        return $relations;
     }
 }
