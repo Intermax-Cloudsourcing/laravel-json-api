@@ -12,8 +12,17 @@ use Orchestra\Testbench\TestCase;
 
 class ResourceTest extends TestCase
 {
+    protected $idIncrement;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->idIncrement = 1;
+    }
+
     /** @test */
-    public function it_transforms_attributes_to_response()
+    public function it_outputs_attributes()
     {
         $user = $this->createUser();
 
@@ -27,7 +36,7 @@ class ResourceTest extends TestCase
     }
 
     /** @test */
-    public function it_transforms_relations_to_json_api()
+    public function it_outputs_relations_with_includes()
     {
         $user = $this->createUser();
 
@@ -37,15 +46,48 @@ class ResourceTest extends TestCase
             $this->createUser()
         ]));
 
+        $user->setRelation('bestFriend', $this->createUser());
+
         $resource = new UserResource($user);
+
+        $response = json_decode($resource->toResponse(app('request'))->content());
+
+        $this->assertTrue(isset($response->data->relationships));
+
+        $friends = $response->data->relationships->friends ?? null;
+        $bestFriend = $response->data->relationships->bestFriend ?? null;
+
+        $this->assertTrue($friends && isset($friends->data) && isset($friends->data[0]));
+
+        $this->assertTrue($bestFriend && $bestFriend->data->type === 'users');
+    }
+
+    /** @test */
+    public function it_outputs_relations_with_links_and_without_includes()
+    {
+        $user = $this->createUser();
+
+        $resource = new UserResource($user);
+
+        $response = json_decode($resource->toResponse(app('request'))->content());
+
+        $this->assertTrue(isset($response->data->relationships));
+        $this->assertTrue(isset($response->data->relationships->friends->links->related));
+
+        $this->assertFalse(isset($response->data->friends->data));
+        $this->assertFalse(isset($response->includes));
     }
 
     protected function createUser()
     {
         $faker = Factory::create();
 
+        $id = $this->idIncrement;
+
+        $this->idIncrement++;
+
         return new User([
-            'id' => $faker->uuid,
+            'id' => $id,
             'email' => $faker->email,
             'password' => password_hash('test', PASSWORD_BCRYPT),
             'created_at' => Carbon::now(),
