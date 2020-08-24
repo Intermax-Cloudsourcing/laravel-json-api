@@ -5,9 +5,14 @@ namespace Intermax\LaravelApi\Tests\Resources\TestClasses;
 use Illuminate\Http\Request;
 use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
+use Intermax\LaravelApi\JsonApi\Resources\RelationType;
 
 class UserResource extends JsonApiResource
 {
+    /**
+     * @param Request $request
+     * @return array
+     */
     protected function getAttributes(Request $request): array
     {
         return [
@@ -17,9 +22,29 @@ class UserResource extends JsonApiResource
         ];
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * @throws JsonApiException
+     */
     protected function getRelations(Request $request): array
     {
-        return [];
+        return [
+            'friends' => [
+                'type' => RelationType::MANY,
+                'links' => [
+                    'related' => 'http://example.com/users/' . $this->getId() . '/friends'
+                ],
+                'resource' => UserCollectionResource::class
+            ],
+            'bestFriend' => [
+                'type' => RelationType::ONE,
+                'links' => [
+                    'related' => 'http://example.com/users/' . $this->getId() . '/best-friend'
+                ],
+                'resource' => UserResource::class
+            ]
+        ];
     }
 
     /**
