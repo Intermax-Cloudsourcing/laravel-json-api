@@ -30,8 +30,7 @@ class ResourceCollectionTest extends TestCase
             $this->createUser()
         ]);
 
-        $paginator = new LengthAwarePaginator($collection, $collection->count(), 15);
-        $paginator->setPath('http://example.com/users');
+        $paginator = $this->createPaginator($collection);
 
         $resource = new UserCollectionResource($paginator);
 
@@ -41,5 +40,42 @@ class ResourceCollectionTest extends TestCase
         $this->assertTrue($response->data[0]->type === 'users');
 
         $this->assertEquals('http://example.com/users?' . urlencode('page[number]') . '=1', $response->links->first);
+    }
+
+    /** @test */
+    public function it_outputs_a_collection_with_nested_includes()
+    {
+        $topUser = $this->createUser();
+        $userWithoutFriends = $this->createUser();
+        $friendOfTopUser = $this->createUser();
+
+        $friendOfTopUserFriend = $this->createUser();
+
+        $topUser->setRelation('friends', [$friendOfTopUser]);
+        $friendOfTopUser->setRelation('bestFriend', $friendOfTopUserFriend);
+
+        $collection = new Collection([
+            $topUser,
+            $userWithoutFriends
+        ]);
+
+        $paginator = $this->createPaginator($collection);
+
+        $resource = new UserCollectionResource($paginator);
+
+        $response = json_decode($resource->toResponse(app('request'))->content());
+
+        $this->assertTrue(isset($response->included));
+    }
+
+    /**
+     * @param Collection $collection
+     * @return LengthAwarePaginator
+     */
+    protected function createPaginator(Collection $collection): LengthAwarePaginator
+    {
+        $paginator = new LengthAwarePaginator($collection, $collection->count(), 15);
+        $paginator->setPath('http://example.com/users');
+        return $paginator;
     }
 }
