@@ -6,13 +6,14 @@ use Faker\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
-use Intermax\LaravelApi\Tests\Resources\TestClasses\User;
-use Intermax\LaravelApi\Tests\Resources\TestClasses\UserResource;
+use Intermax\LaravelApi\Tests\Resources\Utilities\CreateUserTrait;
+use Intermax\LaravelApi\Tests\Resources\Utilities\User;
+use Intermax\LaravelApi\Tests\Resources\Utilities\UserResource;
 use Orchestra\Testbench\TestCase;
 
 class ResourceTest extends TestCase
 {
-    protected $idIncrement;
+    use CreateUserTrait;
 
     protected function setUp(): void
     {
@@ -76,22 +77,5 @@ class ResourceTest extends TestCase
 
         $this->assertFalse(isset($response->data->friends->data));
         $this->assertFalse(isset($response->includes));
-    }
-
-    protected function createUser()
-    {
-        $faker = Factory::create();
-
-        $id = $this->idIncrement;
-
-        $this->idIncrement++;
-
-        return new User([
-            'id' => $id,
-            'email' => $faker->email,
-            'password' => password_hash('test', PASSWORD_BCRYPT),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
     }
 }
