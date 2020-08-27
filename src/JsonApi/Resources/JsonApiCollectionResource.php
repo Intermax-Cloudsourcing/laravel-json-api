@@ -42,17 +42,20 @@ class JsonApiCollectionResource extends ResourceCollection
      */
     public function with($request)
     {
-        return array_merge_recursive(
+        $array = array_merge_recursive(
             parent::with($request),
             [
                 'links' => [
                     'self' => $request->url()
                 ]
-            ],
-            [
-                'included' => $this->included->toArray() ?? new MissingValue()
             ]
         );
+
+        if (!$this->included->isEmpty()) {
+            $array['included'] = $this->included->toArray();
+        }
+
+        return $array;
     }
 
     /**
