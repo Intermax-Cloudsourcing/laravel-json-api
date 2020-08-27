@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelApi\Tests\Resources\TestClasses;
+namespace Intermax\LaravelApi\Tests\Resources\Utilities;
 
 use Illuminate\Http\Request;
 use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
