@@ -4,7 +4,6 @@ namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Intermax\LaravelApi\Tests\Resources\Utilities\CreateUserTrait;
 use Intermax\LaravelApi\Tests\Resources\Utilities\UserCollectionResource;
 use Orchestra\Testbench\TestCase;
