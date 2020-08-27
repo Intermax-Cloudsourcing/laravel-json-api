@@ -13,13 +13,16 @@ trait IncludesGathering
         $this->included = new IncludesBag();
     }
 
-    public function setIncludesBag(?IncludesBag $included = null): void
+    /**
+     * @param IncludesBag $included
+     */
+    public function setIncludesBag($included = null): void
     {
-        if (!$included) {
-            $this->initializeIncludesBag();
+        if ($included && $included instanceof IncludesBag) {
+            $this->included = $included;
             return;
         }
 
-        $this->included = $included;
+        $this->initializeIncludesBag();
     }
 }

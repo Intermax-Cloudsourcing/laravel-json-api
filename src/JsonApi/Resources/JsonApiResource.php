@@ -18,11 +18,18 @@ abstract class JsonApiResource extends JsonResource
 
     private bool $resourceIsEloquent = false;
 
-    public function __construct($resource)
+    /**
+     * JsonApiResource constructor.
+     * @param $resource
+     * @param IncludesBag $included
+     */
+    public function __construct($resource, $included = null)
     {
         if ($resource instanceof Model) {
             $this->resourceIsEloquent = true;
         }
+
+        $this->setIncludesBag($included);
 
         parent::__construct($resource);
     }
