@@ -40,6 +40,8 @@ class ResourceCollectionTest extends TestCase
         $this->assertTrue($response->data[0]->type === 'users');
 
         $this->assertEquals('http://example.com/users?' . urlencode('page[number]') . '=1', $response->links->first);
+
+        $this->assertFalse(isset($response->included));
     }
 
     /** @test */
