@@ -14,7 +14,7 @@ use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 
 abstract class JsonApiResource extends JsonResource
 {
-    protected array $included = [];
+    use IncludesGathering;
 
     private bool $resourceIsEloquent = false;
 
@@ -48,14 +48,14 @@ abstract class JsonApiResource extends JsonResource
     {
         $parentWith = parent::with($request);
 
-        if (empty($this->included)) {
+        if ($this->included->isEmpty()) {
             return $parentWith;
         }
 
         return array_merge_recursive(
             $parentWith,
             [
-                'included' => array_unique($this->included, SORT_REGULAR)
+                'included' => $this->included->toArray()
             ]
         );
     }
@@ -146,19 +146,19 @@ abstract class JsonApiResource extends JsonResource
                 $resourceClass = $values['resource'];
 
                 /** @var JsonApiCollectionResource $resource */
-                $resource = new $resourceClass($this->resource->$definedRelation);
+                $resource = new $resourceClass($this->resource->$definedRelation, $this->included);
 
                 $resolvedResource = $resource->resolve();
 
                 if ($values['type'] === RelationType::MANY) {
-                    $this->included = array_merge($this->included, $resolvedResource);
+                    $this->included->addMany($resolvedResource);
 
                     $relation['data'] = array_map(
                         fn($element) => Arr::only($element, ['type', 'id']),
                         $resolvedResource
                     );
                 } else {
-                    $this->included[] = $resolvedResource;
+                    $this->included->add($resolvedResource);
                     $relation['data'] = Arr::only($resolvedResource, ['type', 'id']);
                 }
             }

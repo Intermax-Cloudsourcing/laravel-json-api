@@ -3,17 +3,37 @@
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
 class JsonApiCollectionResource extends ResourceCollection
 {
-    public function __construct($resource)
+    use IncludesGathering;
+
+    public function __construct($resource, IncludesBag $included = null)
     {
         $resource = $this->preparePaginationFields($resource);
+        $this->setIncludesBag($included);
 
         parent::__construct($resource);
+    }
+
+    protected function collectResource($resource)
+    {
+        $resource = parent::collectResource($resource);
+
+        $collection = $resource;
+
+        if ($resource instanceof AbstractPaginator) {
+            $collection = $resource->getCollection();
+        }
+
+        $collection->each(fn($item) => $item->setIncludesBag($this->included));
+
+        return $resource;
     }
 
     /**
@@ -28,6 +48,9 @@ class JsonApiCollectionResource extends ResourceCollection
                 'links' => [
                     'self' => $request->url()
                 ]
+            ],
+            [
+                'included' => $this->included->toArray() ?? new MissingValue()
             ]
         );
     }
