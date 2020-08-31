@@ -6,9 +6,9 @@ use Faker\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
-use Intermax\LaravelApi\Tests\Resources\Utilities\CreateUserTrait;
-use Intermax\LaravelApi\Tests\Resources\Utilities\User;
-use Intermax\LaravelApi\Tests\Resources\Utilities\UserResource;
+use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
+use Intermax\LaravelApi\Tests\Utilities\User;
+use Intermax\LaravelApi\Tests\Utilities\UserResource;
 use Orchestra\Testbench\TestCase;
 
 class ResourceTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelApi\Tests\Resources\Utilities;
+namespace Intermax\LaravelApi\Tests\Utilities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

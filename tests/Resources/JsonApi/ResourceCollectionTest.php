@@ -4,8 +4,8 @@ namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Intermax\LaravelApi\Tests\Resources\Utilities\CreateUserTrait;
-use Intermax\LaravelApi\Tests\Resources\Utilities\UserCollectionResource;
+use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
+use Intermax\LaravelApi\Tests\Utilities\UserCollectionResource;
 use Orchestra\Testbench\TestCase;
 
 class ResourceCollectionTest extends TestCase
