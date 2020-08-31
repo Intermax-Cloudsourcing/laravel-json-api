@@ -68,6 +68,16 @@ class ResourceCollectionTest extends TestCase
         $response = json_decode($resource->toResponse(app('request'))->content());
 
         $this->assertTrue(isset($response->included));
+
+        $isFound = false;
+        foreach ($response->included as $include) {
+            $isFound = $include->type == 'users' && $include->id == $friendOfTopUserFriend->id;
+            if ($isFound) {
+                break;
+            }
+        }
+
+        $this->assertTrue($isFound);
     }
 
     /**
