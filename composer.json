@@ -11,7 +11,8 @@
     "require": {
         "php": "^7.4.0",
         "laravel/framework": "^7.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "intermax/laravel-open-api": "dev-1-move-files-from-time-api-to-this-package"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -22,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Intermax\\LaravelApi\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -42,9 +43,13 @@
         "test:unit": "phpunit --colors=always",
         "test:lint": "php-cs-fixer fix -v --dry-run",
         "test": [
-            "@test:lint",
-            "@test:unit",
-            "@test:types"
+            "@test:unit"
         ]
+    },
+    "repositories": {
+        "intermax": {
+            "type": "composer",
+            "url": "https://development.intermax-pages.nl/tools/composer-repository/"
+        }
     }
 }
