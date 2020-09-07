@@ -4,11 +4,14 @@ namespace Intermax\LaravelApi\JsonApi\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
-use Spatie\QueryBuilder\Filters\Filter;
+use Spatie\QueryBuilder\Filters\Filter as QueryBuilderFilter;
+use Intermax\LaravelOpenApi\Contracts\Filter as OpenApiFilter;
 use Illuminate\Support\Arr;
 
-class OperatorFilter implements Filter, \Intermax\LaravelOpenApi\Contracts\Filter
+class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
 {
     protected array $operators = [
         'eq' => '=',
@@ -41,6 +44,7 @@ class OperatorFilter implements Filter, \Intermax\LaravelOpenApi\Contracts\Filte
     {
         if (!is_array($value)) {
             $operator = 'eq';
+            $filterValue = $value;
         } else {
             $operator = array_key_first($value);
 
@@ -50,9 +54,11 @@ class OperatorFilter implements Filter, \Intermax\LaravelOpenApi\Contracts\Filte
                     new Collection(array_keys($this->parameters()))
                 );
             }
+
+            $filterValue = Arr::first($value);
         }
 
-        $query->where($property, $this->operators[$operator], Arr::first($value));
+        $query->where(Str::snake($property), $this->operators[$operator], $filterValue);
     }
 
     public function parameters(): array
@@ -66,5 +72,10 @@ class OperatorFilter implements Filter, \Intermax\LaravelOpenApi\Contracts\Filte
         }
 
         return $parameters;
+    }
+
+    public function allowedFilter(): AllowedFilter
+    {
+        return AllowedFilter::custom($this->fieldName, $this);
     }
 }

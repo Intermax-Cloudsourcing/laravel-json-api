@@ -52,5 +52,12 @@
             "type": "composer",
             "url": "https://development.intermax-pages.nl/tools/composer-repository/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Intermax\\LaravelApi\\ServiceProvider"
+            ]
+        }
     }
 }
