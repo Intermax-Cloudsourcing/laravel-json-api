@@ -11,7 +11,7 @@
     "require": {
         "php": "^7.4.0",
         "ext-json": "*",
-        "intermax/laravel-open-api": "dev-1-move-files-from-time-api-to-this-package",
+        "intermax/laravel-open-api": "^0.1",
         "laravel/framework": "^7.0",
         "spatie/laravel-query-builder": "^3.0"
     },
