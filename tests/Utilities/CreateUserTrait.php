@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelApi\Tests\Resources\Utilities;
+namespace Intermax\LaravelApi\Tests\Utilities;
 
 use Faker\Factory;
 use Illuminate\Support\Carbon;

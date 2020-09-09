@@ -46,7 +46,7 @@ class JsonApiCollectionResource extends ResourceCollection
             parent::with($request),
             [
                 'links' => [
-                    'self' => $request->url()
+                    'self' => $request->fullUrl()
                 ]
             ]
         );
