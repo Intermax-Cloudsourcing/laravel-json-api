@@ -110,7 +110,7 @@ abstract class JsonApiResource extends JsonResource
     protected function getId(): string
     {
         if (!isset($this->resource->id)) {
-            throw new JsonApiException('No id found, did you forget to implement ' . __CLASS__ . '::getId()?');
+            throw new JsonApiException('No id found, did you forget to implement ' . __METHOD__ . '?');
         }
 
         return $this->resource->id;
@@ -146,14 +146,13 @@ abstract class JsonApiResource extends JsonResource
                 ];
             }
 
-            if (
-                ($this->resourceIsEloquent && $this->resource->relationLoaded($definedRelation))
-                || (!$this->resourceIsEloquent && isset($this->resource->$definedRelation))
-            ) {
+            $relationData = $this->getRelationData($definedRelation);
+
+            if ($relationData) {
                 $resourceClass = $values['resource'];
 
-                /** @var JsonApiCollectionResource $resource */
-                $resource = new $resourceClass($this->resource->$definedRelation, $this->included);
+                /** @var JsonApiCollectionResource|JsonApiResource $resource */
+                $resource = new $resourceClass($relationData, $this->included);
 
                 $resolvedResource = $resource->resolve();
 
@@ -180,5 +179,27 @@ abstract class JsonApiResource extends JsonResource
         }
 
         return $relations;
+    }
+
+    /**
+     * @param string $definedRelation
+     * @return mixed
+     */
+    protected function getRelationData(string $definedRelation)
+    {
+        $methodName = 'get' . $definedRelation . 'RelationData';
+
+        if (method_exists($this, 'get' . $definedRelation . 'RelationData')) {
+            return $this->$methodName();
+        }
+
+        if (
+            ($this->resourceIsEloquent && $this->resource->relationLoaded($definedRelation))
+            || (!$this->resourceIsEloquent && isset($this->resource->$definedRelation))
+        ) {
+            return $this->resource->$definedRelation;
+        }
+
+        return null;
     }
 }
