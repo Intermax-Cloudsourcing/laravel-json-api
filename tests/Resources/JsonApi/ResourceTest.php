@@ -9,6 +9,7 @@ use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
 use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
 use Intermax\LaravelApi\Tests\Utilities\User;
 use Intermax\LaravelApi\Tests\Utilities\UserResource;
+use Intermax\LaravelApi\Tests\Utilities\UserResourceWithCustomRelation;
 use Orchestra\Testbench\TestCase;
 
 class ResourceTest extends TestCase
@@ -77,5 +78,24 @@ class ResourceTest extends TestCase
 
         $this->assertFalse(isset($response->data->friends->data));
         $this->assertFalse(isset($response->includes));
+    }
+
+    /** @test */
+    public function it_outputs_with_a_custom_relation()
+    {
+        $user = $this->createUser();
+
+        $resource = new UserResourceWithCustomRelation($user);
+
+        $response = json_decode($resource->toResponse(app('request'))->content());
+
+        $this->assertTrue(isset($response->data->relationships));
+        $this->assertTrue(isset($response->data->relationships->neighbour));
+        $this->assertEquals('989', $response->data->relationships->neighbour->data->id ?? false);
+        $this->assertEquals('users', $response->data->relationships->neighbour->data->type ?? false);
+
+        $this->assertEquals('989', $response->included[0]->id ?? false);
+        $this->assertEquals('users', $response->included[0]->type ?? false);
+        $this->assertEquals('neighbour@example.com', $response->included[0]->attributes->email ?? false);
     }
 }
