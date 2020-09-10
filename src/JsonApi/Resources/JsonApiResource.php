@@ -124,7 +124,7 @@ abstract class JsonApiResource extends JsonResource
     {
         $class = new ReflectionClass($this->resource);
 
-        return Str::plural(strtolower($class->getShortName()));
+        return Str::plural(Str::camel($class->getShortName()));
     }
 
     protected function discoverRelations(Request $request): ?array
