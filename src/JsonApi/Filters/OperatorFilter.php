@@ -43,11 +43,10 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
     public function __invoke(Builder $query, $value, string $property): void
     {
         if (!is_array($value)) {
-            $operator = 'eq';
-            $filterValue = $value;
-        } else {
-            $operator = array_key_first($value);
+            $value = ['eq' => $value];
+        }
 
+        foreach ($value as $operator => $filterValue) {
             if (!isset($this->operators[$operator]) || !in_array($operator, $this->allowedOperators)) {
                 throw new InvalidFilterQuery(
                     new Collection([$property . '[' . $operator . ']']),
@@ -55,10 +54,8 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
                 );
             }
 
-            $filterValue = Arr::first($value);
+            $query->where(Str::snake($property), $this->operators[$operator], $filterValue);
         }
-
-        $query->where(Str::snake($property), $this->operators[$operator], $filterValue);
     }
 
     public function parameters(): array
