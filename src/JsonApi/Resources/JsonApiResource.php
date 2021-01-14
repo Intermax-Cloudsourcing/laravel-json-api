@@ -187,10 +187,13 @@ abstract class JsonApiResource extends JsonResource
      */
     protected function getRelationData(string $definedRelation)
     {
-        $methodName = 'get' . $definedRelation . 'RelationData';
+        $methodName = 'get' . ucfirst($definedRelation) . 'RelationData';
 
         if (method_exists($this, 'get' . $definedRelation . 'RelationData')) {
             return $this->$methodName();
+        }
+        if (method_exists($this->resource, 'get' . $definedRelation . 'RelationData')) {
+            return $this->resource->$methodName();
         }
 
         if (
