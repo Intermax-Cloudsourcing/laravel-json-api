@@ -14,10 +14,10 @@ class UserResourceWithCustomRelation extends UserResource
             'neighbour' => [
                 'type' => RelationType::ONE,
                 'links' => [
-                    'related' => 'http://example.com/users/' . $this->getId() . '/neighbour'
+                    'related' => 'http://example.com/users/'.$this->getId().'/neighbour',
                 ],
-                'resource' => UserResource::class
-            ]
+                'resource' => UserResource::class,
+            ],
         ];
     }
 
@@ -28,7 +28,7 @@ class UserResourceWithCustomRelation extends UserResource
             'email' => 'neighbour@example.com',
             'password' => password_hash('test', PASSWORD_BCRYPT),
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

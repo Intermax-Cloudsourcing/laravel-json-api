@@ -27,7 +27,7 @@ class ResourceCollectionTest extends TestCase
             $this->createUser(),
             $this->createUser(),
             $this->createUser(),
-            $this->createUser()
+            $this->createUser(),
         ]);
 
         $paginator = $this->createPaginator($collection);
@@ -39,7 +39,7 @@ class ResourceCollectionTest extends TestCase
         $this->assertTrue(count($response->data) === 5);
         $this->assertTrue($response->data[0]->type === 'users');
 
-        $this->assertEquals('http://example.com/users?' . urlencode('page[number]') . '=1', $response->links->first);
+        $this->assertEquals('http://example.com/users?'.urlencode('page[number]').'=1', $response->links->first);
 
         $this->assertFalse(isset($response->included));
     }
@@ -58,7 +58,7 @@ class ResourceCollectionTest extends TestCase
 
         $collection = new Collection([
             $topUser,
-            $userWithoutFriends
+            $userWithoutFriends,
         ]);
 
         $paginator = $this->createPaginator($collection);
@@ -88,6 +88,7 @@ class ResourceCollectionTest extends TestCase
     {
         $paginator = new LengthAwarePaginator($collection, $collection->count(), 15);
         $paginator->setPath('http://example.com/users');
+
         return $paginator;
     }
 }

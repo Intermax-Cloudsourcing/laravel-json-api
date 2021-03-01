@@ -3,10 +3,9 @@
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
 class JsonApiCollectionResource extends ResourceCollection
@@ -31,7 +30,7 @@ class JsonApiCollectionResource extends ResourceCollection
             $collection = $resource->getCollection();
         }
 
-        $collection->each(fn($item) => $item->setIncludesBag($this->included));
+        $collection->each(fn ($item) => $item->setIncludesBag($this->included));
 
         return $resource;
     }
@@ -46,12 +45,12 @@ class JsonApiCollectionResource extends ResourceCollection
             parent::with($request),
             [
                 'links' => [
-                    'self' => $request->fullUrl()
-                ]
+                    'self' => $request->fullUrl(),
+                ],
             ]
         );
 
-        if (!$this->included->isEmpty()) {
+        if (! $this->included->isEmpty()) {
             $array['included'] = $this->included->toArray();
         }
 
@@ -64,7 +63,7 @@ class JsonApiCollectionResource extends ResourceCollection
      */
     protected function preparePaginationFields($resource)
     {
-        if (!($resource instanceof LengthAwarePaginator)) {
+        if (! ($resource instanceof LengthAwarePaginator)) {
             return $resource;
         }
 
@@ -78,7 +77,7 @@ class JsonApiCollectionResource extends ResourceCollection
                 'first' => $paginated['first_page_url'],
                 'last' => $paginated['last_page_url'],
                 'prev' => $paginated['prev_page_url'],
-                'next' => $paginated['next_page_url']
+                'next' => $paginated['next_page_url'],
             ],
             'meta' => [
                 'currentPage' => $resource->currentPage(),
@@ -87,8 +86,8 @@ class JsonApiCollectionResource extends ResourceCollection
                 'to' => $paginated['to'],
                 'total' => $resource->total(),
                 'pageSize' => $resource->perPage(),
-                'path' => $paginated['path']
-            ]
+                'path' => $paginated['path'],
+            ],
         ];
 
         return $resource->getCollection();

@@ -2,12 +2,8 @@
 
 namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
 
-use Faker\Factory;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
 use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
-use Intermax\LaravelApi\Tests\Utilities\User;
 use Intermax\LaravelApi\Tests\Utilities\UserResource;
 use Intermax\LaravelApi\Tests\Utilities\UserResourceWithCustomRelation;
 use Orchestra\Testbench\TestCase;
@@ -33,7 +29,7 @@ class ResourceTest extends TestCase
         $response = json_decode($resource->toResponse(app('request'))->content());
 
         $this->assertEquals('users', $response->data->type ?? null);
-        $this->assertTrue(isset($response->data->attributes) && !empty($response->data->attributes));
+        $this->assertTrue(isset($response->data->attributes) && ! empty($response->data->attributes));
         $this->assertEquals($user->email, $response->data->attributes->email);
     }
 
@@ -45,7 +41,7 @@ class ResourceTest extends TestCase
         $user->setRelation('friends', new Collection([
             $this->createUser(),
             $this->createUser(),
-            $this->createUser()
+            $this->createUser(),
         ]));
 
         $user->setRelation('bestFriend', $this->createUser());

@@ -20,9 +20,9 @@ class OperatorFilterTest extends TestCase
                 'filter' => 'filter',
                 'sort' => 'sort',
                 'fields' => 'fields',
-                'append' => 'append'
+                'append' => 'append',
             ],
-            'count_suffix' => 'Count'
+            'count_suffix' => 'Count',
         ]);
     }
 
@@ -30,7 +30,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_a_greater_than_query()
     {
         request()->query->set('filter', [
-            'id' => ['gt' => 2]
+            'id' => ['gt' => 2],
         ]);
 
         $query = $this->createQuery('id');
@@ -43,7 +43,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_an_equals_query()
     {
         request()->query->set('filter', [
-            'id' => ['eq' => 3]
+            'id' => ['eq' => 3],
         ]);
 
         $query = $this->createQuery('id');
@@ -56,7 +56,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_a_greater_than_or_equals_query()
     {
         request()->query->set('filter', [
-            'id' => ['gte' => 3]
+            'id' => ['gte' => 3],
         ]);
 
         $query = $this->createQuery('id');
@@ -69,7 +69,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_a_lesser_than_or_equals_query()
     {
         request()->query->set('filter', [
-            'id' => ['lte' => 3]
+            'id' => ['lte' => 3],
         ]);
 
         $query = $this->createQuery('id');
@@ -82,7 +82,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_a_lesser_than_query()
     {
         request()->query->set('filter', [
-            'id' => ['lt' => 3]
+            'id' => ['lt' => 3],
         ]);
 
         $query = $this->createQuery('id');
@@ -95,7 +95,7 @@ class OperatorFilterTest extends TestCase
     public function it_produces_a_not_equal_query()
     {
         request()->query->set('filter', [
-            'id' => ['nq' => 3]
+            'id' => ['nq' => 3],
         ]);
 
         $query = $this->createQuery('id');
@@ -108,7 +108,7 @@ class OperatorFilterTest extends TestCase
     {
         return QueryBuilder::for(User::class)
             ->allowedFilters([
-                AllowedFilter::custom($field, new OperatorFilter($field))
+                AllowedFilter::custom($field, new OperatorFilter($field)),
             ]);
     }
 }

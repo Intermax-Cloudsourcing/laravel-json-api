@@ -12,11 +12,11 @@ class User extends Model
 
     public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(self::class);
     }
 
     public function bestFriend(): HasOne
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(self::class);
     }
 }

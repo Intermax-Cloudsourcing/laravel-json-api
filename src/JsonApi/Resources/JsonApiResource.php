@@ -8,9 +8,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 use ReflectionClass;
 use ReflectionException;
-use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 
 abstract class JsonApiResource extends JsonResource
 {
@@ -47,7 +47,7 @@ abstract class JsonApiResource extends JsonResource
             'type' => $this->getType(),
             'attributes' => $this->getAttributes($request),
             'relationships' => $this->discoverRelations($request) ?? new MissingValue(),
-            'links' => $this->getLinks($request)
+            'links' => $this->getLinks($request),
         ];
     }
 
@@ -62,13 +62,13 @@ abstract class JsonApiResource extends JsonResource
         return array_merge_recursive(
             $parentWith,
             [
-                'included' => $this->included->toArray()
+                'included' => $this->included->toArray(),
             ]
         );
     }
 
     /**
-     * Expects an associative array of the attributes you want to include in the response, excluding id
+     * Expects an associative array of the attributes you want to include in the response, excluding id.
      *
      * @param Request $request
      * @return array
@@ -87,7 +87,7 @@ abstract class JsonApiResource extends JsonResource
      *         'type' => RelationType::ONE,
      *         'links' => ...
      *     ]
-     * ]
+     * ].
      *
      * @param $request
      * @return array
@@ -96,7 +96,7 @@ abstract class JsonApiResource extends JsonResource
 
     /**
      * Expects an associative array of links for the resource, preferably use the route helper to generate links (eg:
-     * ['self' => route('articles.show', ['article' => 1])] )
+     * ['self' => route('articles.show', ['article' => 1])] ).
      *
      * @param $request
      * @return array
@@ -109,8 +109,8 @@ abstract class JsonApiResource extends JsonResource
      */
     protected function getId(): string
     {
-        if (!isset($this->resource->id)) {
-            throw new JsonApiException('No id found, did you forget to implement ' . __METHOD__ . '?');
+        if (! isset($this->resource->id)) {
+            throw new JsonApiException('No id found, did you forget to implement '.__METHOD__.'?');
         }
 
         return $this->resource->id;
@@ -142,7 +142,7 @@ abstract class JsonApiResource extends JsonResource
 
             if (isset($values['links'])) {
                 $relation = [
-                    'links' => $values['links']
+                    'links' => $values['links'],
                 ];
             }
 
@@ -160,7 +160,7 @@ abstract class JsonApiResource extends JsonResource
                     $this->included->addMany($resolvedResource);
 
                     $relation['data'] = array_map(
-                        fn($element) => Arr::only($element, ['type', 'id']),
+                        fn ($element) => Arr::only($element, ['type', 'id']),
                         $resolvedResource
                     );
                 } else {
@@ -169,9 +169,9 @@ abstract class JsonApiResource extends JsonResource
                 }
             }
 
-            if (!isset($relation['links'])) {
+            if (! isset($relation['links'])) {
                 $relation['meta'] = [
-                    'hasLinks' => false
+                    'hasLinks' => false,
                 ];
             }
 
@@ -187,18 +187,18 @@ abstract class JsonApiResource extends JsonResource
      */
     protected function getRelationData(string $definedRelation)
     {
-        $methodName = 'get' . ucfirst($definedRelation) . 'RelationData';
+        $methodName = 'get'.ucfirst($definedRelation).'RelationData';
 
-        if (method_exists($this, 'get' . $definedRelation . 'RelationData')) {
+        if (method_exists($this, 'get'.$definedRelation.'RelationData')) {
             return $this->$methodName();
         }
-        if (method_exists($this->resource, 'get' . $definedRelation . 'RelationData')) {
+        if (method_exists($this->resource, 'get'.$definedRelation.'RelationData')) {
             return $this->resource->$methodName();
         }
 
         if (
             ($this->resourceIsEloquent && $this->resource->relationLoaded($definedRelation))
-            || (!$this->resourceIsEloquent && isset($this->resource->$definedRelation))
+            || (! $this->resourceIsEloquent && isset($this->resource->$definedRelation))
         ) {
             return $this->resource->$definedRelation;
         }

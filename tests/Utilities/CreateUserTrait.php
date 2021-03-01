@@ -22,7 +22,7 @@ trait CreateUserTrait
             'email' => $faker->email,
             'password' => password_hash('test', PASSWORD_BCRYPT),
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

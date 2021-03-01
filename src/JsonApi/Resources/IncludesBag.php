@@ -17,7 +17,7 @@ class IncludesBag implements Arrayable
     public function add($resource): void
     {
         if ($this->items->search(
-            fn($item) => $resource['id'] == $item['id'] && $resource['type'] == $item['type']
+            fn ($item) => $resource['id'] == $item['id'] && $resource['type'] == $item['type']
         ) === false) {
             $this->items->add($resource);
         }

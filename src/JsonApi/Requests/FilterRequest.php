@@ -21,5 +21,5 @@ abstract class FilterRequest extends FormRequest
     /**
      * @return Filter[]|OpenApiFilter[]
      */
-    public abstract function filters(): array;
+    abstract public function filters(): array;
 }

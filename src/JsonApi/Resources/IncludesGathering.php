@@ -2,8 +2,6 @@
 
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
-use Illuminate\Pagination\AbstractPaginator;
-
 trait IncludesGathering
 {
     protected IncludesBag $included;
@@ -20,6 +18,7 @@ trait IncludesGathering
     {
         if ($included && $included instanceof IncludesBag) {
             $this->included = $included;
+
             return;
         }
 

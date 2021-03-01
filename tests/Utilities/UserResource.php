@@ -18,7 +18,7 @@ class UserResource extends JsonApiResource
         return [
             'email' => $this->resource->email,
             'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at
+            'updated_at' => $this->resource->updated_at,
         ];
     }
 
@@ -33,17 +33,17 @@ class UserResource extends JsonApiResource
             'friends' => [
                 'type' => RelationType::MANY,
                 'links' => [
-                    'related' => 'http://example.com/users/' . $this->getId() . '/friends'
+                    'related' => 'http://example.com/users/'.$this->getId().'/friends',
                 ],
-                'resource' => UserCollectionResource::class
+                'resource' => UserCollectionResource::class,
             ],
             'bestFriend' => [
                 'type' => RelationType::ONE,
                 'links' => [
-                    'related' => 'http://example.com/users/' . $this->getId() . '/best-friend'
+                    'related' => 'http://example.com/users/'.$this->getId().'/best-friend',
                 ],
-                'resource' => UserResource::class
-            ]
+                'resource' => self::class,
+            ],
         ];
     }
 
@@ -55,7 +55,7 @@ class UserResource extends JsonApiResource
     protected function getLinks(Request $request): array
     {
         return [
-            'self' => 'http://example.com/users/' . $this->getId()
+            'self' => 'http://example.com/users/'.$this->getId(),
         ];
     }
 }
