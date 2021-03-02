@@ -11,9 +11,6 @@ include:
     file: php-lint.yml
   - project: development/gitlab-includes/services
     ref: 1.3.0
-    file: docker-build.yml
-  - project: development/gitlab-includes/services
-    ref: 1.3.0
     file: php-unit.yml
   - project: development/gitlab-includes/services
     ref: 1.3.0
