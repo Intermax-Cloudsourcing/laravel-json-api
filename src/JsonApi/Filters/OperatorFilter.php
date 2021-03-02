@@ -12,6 +12,9 @@ use Spatie\QueryBuilder\Filters\Filter as QueryBuilderFilter;
 
 class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
 {
+    /**
+     * @var array|string[]
+     */
     protected array $operators = [
         'eq' => '=',
         'nq' => '<>',
@@ -21,12 +24,20 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
         'lte' => '<=',
     ];
 
+    /**
+     * @var array|string[]
+     */
     protected array $allowedOperators = [];
 
     protected string $fieldName;
 
     protected string $type;
 
+    /**
+     * @param string $fieldName
+     * @param string $type
+     * @param array|string[]|null $allowedOperators
+     */
     public function __construct(string $fieldName, string $type = 'string', ?array $allowedOperators = null)
     {
         $this->fieldName = $fieldName;
@@ -39,6 +50,11 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
         }
     }
 
+    /**
+     * @param Builder $query
+     * @param mixed $value
+     * @param string $property
+     */
     public function __invoke(Builder $query, $value, string $property): void
     {
         if (! is_array($value)) {
@@ -57,6 +73,9 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
         }
     }
 
+    /**
+     * @return array|string[]
+     */
     public function parameters(): array
     {
         $parameters = [];

@@ -6,7 +6,7 @@ trait IncludesGathering
 {
     protected IncludesBag $included;
 
-    public function initializeIncludesBag()
+    public function initializeIncludesBag(): void
     {
         $this->included = new IncludesBag();
     }
