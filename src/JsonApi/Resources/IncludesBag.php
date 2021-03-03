@@ -14,7 +14,10 @@ class IncludesBag implements Arrayable
         $this->items = new Collection();
     }
 
-    public function add($resource): void
+    /**
+     * @param array<mixed> $resource
+     */
+    public function add(array $resource): void
     {
         if ($this->items->search(
             fn ($item) => $resource['id'] == $item['id'] && $resource['type'] == $item['type']
@@ -24,7 +27,7 @@ class IncludesBag implements Arrayable
     }
 
     /**
-     * @param array|Collection $resources
+     * @param array<mixed> $resources
      */
     public function addMany($resources): void
     {
@@ -33,12 +36,12 @@ class IncludesBag implements Arrayable
         }
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->items->isEmpty();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->items->toArray();
     }

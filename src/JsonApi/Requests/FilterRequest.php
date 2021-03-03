@@ -4,22 +4,24 @@ namespace Intermax\LaravelApi\JsonApi\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Intermax\LaravelApi\JsonApi\Filters\Filter;
-use Intermax\LaravelOpenApi\Contracts\Filter as OpenApiFilter;
 
 abstract class FilterRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    /**
+     * @return array<string, string>
+     */
+    public function rules(): array
     {
         return [];
     }
 
     /**
-     * @return Filter[]|OpenApiFilter[]
+     * @return Filter[]
      */
     abstract public function filters(): array;
 }

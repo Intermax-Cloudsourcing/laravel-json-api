@@ -19,9 +19,8 @@ abstract class JsonApiResource extends JsonResource
     private bool $resourceIsEloquent = false;
 
     /**
-     * JsonApiResource constructor.
-     * @param $resource
-     * @param IncludesBag $included
+     * @param mixed $resource
+     * @param ?IncludesBag $included
      */
     public function __construct($resource, $included = null)
     {
@@ -36,11 +35,11 @@ abstract class JsonApiResource extends JsonResource
 
     /**
      * @param Request $request
-     * @return array
+     * @return array<mixed>
      * @throws JsonApiException
      * @throws ReflectionException
      */
-    final public function toArray($request)
+    final public function toArray($request): array
     {
         return [
             'id' => $this->getId(),
@@ -51,7 +50,11 @@ abstract class JsonApiResource extends JsonResource
         ];
     }
 
-    public function with($request)
+    /**
+     * @param Request $request
+     * @return array<mixed>
+     */
+    public function with($request): array
     {
         $parentWith = parent::with($request);
 
@@ -71,7 +74,7 @@ abstract class JsonApiResource extends JsonResource
      * Expects an associative array of the attributes you want to include in the response, excluding id.
      *
      * @param Request $request
-     * @return array
+     * @return array<mixed>
      */
     abstract protected function getAttributes(Request $request): array;
 
@@ -89,8 +92,8 @@ abstract class JsonApiResource extends JsonResource
      *     ]
      * ].
      *
-     * @param $request
-     * @return array
+     * @param Request $request
+     * @return array<mixed>
      */
     abstract protected function getRelations(Request $request): array;
 
@@ -98,8 +101,8 @@ abstract class JsonApiResource extends JsonResource
      * Expects an associative array of links for the resource, preferably use the route helper to generate links (eg:
      * ['self' => route('articles.show', ['article' => 1])] ).
      *
-     * @param $request
-     * @return array
+     * @param Request $request
+     * @return array<mixed>
      */
     abstract protected function getLinks(Request $request): array;
 
@@ -127,6 +130,10 @@ abstract class JsonApiResource extends JsonResource
         return Str::plural(Str::camel($class->getShortName()));
     }
 
+    /**
+     * @param Request $request
+     * @return array<mixed>|null
+     */
     protected function discoverRelations(Request $request): ?array
     {
         $definedRelations = $this->getRelations($request);
@@ -146,12 +153,12 @@ abstract class JsonApiResource extends JsonResource
                 ];
             }
 
-            $relationData = $this->getRelationData($definedRelation);
+            $relationData = $this->getRelationData((string) $definedRelation);
 
             if ($relationData) {
                 $resourceClass = $values['resource'];
 
-                /** @var JsonApiCollectionResource|JsonApiResource $resource */
+                /** @var JsonApiCollectionResource<mixed>|JsonApiResource $resource */
                 $resource = new $resourceClass($relationData, $this->included);
 
                 $resolvedResource = $resource->resolve();
