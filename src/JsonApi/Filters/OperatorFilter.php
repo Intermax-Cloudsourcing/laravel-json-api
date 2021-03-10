@@ -31,7 +31,7 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
 
     protected string $fieldName;
 
-    protected string $columnName;
+    protected ?string $columnName;
 
     protected string $type;
 
