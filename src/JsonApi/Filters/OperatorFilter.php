@@ -31,16 +31,24 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
 
     protected string $fieldName;
 
+    protected string $columnName;
+
     protected string $type;
 
     /**
      * @param string $fieldName
+     * @param string|null $columnName
      * @param string $type
      * @param array|string[]|null $allowedOperators
      */
-    public function __construct(string $fieldName, string $type = 'string', ?array $allowedOperators = null)
-    {
+    public function __construct(
+        string $fieldName,
+        ?string $columnName = null,
+        string $type = 'string',
+        ?array $allowedOperators = null
+    ) {
         $this->fieldName = $fieldName;
+        $this->columnName = $columnName;
         $this->type = $type;
 
         if (! $allowedOperators) {
@@ -69,7 +77,7 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
                 );
             }
 
-            $query->where(Str::snake($property), $this->operators[$operator], $filterValue);
+            $query->where($this->columnName ?? Str::snake($property), $this->operators[$operator], $filterValue);
         }
     }
 
