@@ -3,6 +3,7 @@
 namespace Intermax\LaravelApi\JsonApi\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Intermax\LaravelOpenApi\Contracts\Filter as OpenApiFilter;
@@ -69,15 +70,21 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
             $value = ['eq' => $value];
         }
 
-        foreach ($value as $operator => $filterValue) {
-            if (! isset($this->operators[$operator]) || ! in_array($operator, $this->allowedOperators)) {
-                throw new InvalidFilterQuery(
-                    new Collection([$property.'['.$operator.']']),
-                    new Collection(array_keys($this->parameters()))
-                );
-            }
+        $columnName = $this->columnName ?? Str::snake($property);
 
-            $query->where($this->columnName ?? Str::snake($property), $this->operators[$operator], $filterValue);
+        if (! Arr::isAssoc($value)) {
+            $query->whereIn($columnName, $value);
+        } else {
+            foreach ($value as $operator => $filterValue) {
+                if (! isset($this->operators[$operator]) || ! in_array($operator, $this->allowedOperators)) {
+                    throw new InvalidFilterQuery(
+                        new Collection([$property.'['.$operator.']']),
+                        new Collection(array_keys($this->parameters()))
+                    );
+                }
+
+                $query->where($columnName, $this->operators[$operator], $filterValue);
+            }
         }
     }
 

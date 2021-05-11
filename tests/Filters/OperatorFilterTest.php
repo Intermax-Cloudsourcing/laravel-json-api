@@ -104,6 +104,19 @@ class OperatorFilterTest extends TestCase
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
+    /** @test */
+    public function it_produces_an_in_query()
+    {
+        request()->query->set('filter', [
+            'id' => [1, 2, 3],
+        ]);
+
+        $query = $this->createQuery('id');
+
+        $this->assertEquals('select * from `users` where `id` in (?, ?, ?)', $query->toSql());
+        $this->assertCount(3, $query->getBindings());
+    }
+
     protected function createQuery($field)
     {
         return QueryBuilder::for(User::class)
