@@ -23,6 +23,7 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
         'lt' => '<',
         'gte' => '>=',
         'lte' => '<=',
+        'contains' => 'like'
     ];
 
     /**
@@ -81,6 +82,10 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
                         new Collection([$property.'['.$operator.']']),
                         new Collection(array_keys($this->parameters()))
                     );
+                }
+
+                if ($operator == 'contains') {
+                    $filterValue = "%$filterValue%";
                 }
 
                 $query->where($columnName, $this->operators[$operator], $filterValue);
