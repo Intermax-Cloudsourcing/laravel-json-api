@@ -23,7 +23,7 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
         'lt' => '<',
         'gte' => '>=',
         'lte' => '<=',
-        'contains' => 'like'
+        'contains' => 'like',
     ];
 
     /**
