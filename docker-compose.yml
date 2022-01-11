@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   php-cli:
-    image: eu.gcr.io/intermax-group-262516/tools/composer:latest
+    image: repo.harbor.intermax.nl/dockerhub-proxy/intermaxgroup/composer:latest
     shm_size: 1024m
     cap_drop:
       - ALL

@@ -16,8 +16,8 @@
         "spatie/laravel-query-builder": "^3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.6",
-        "intermax/php-integration-tools": "^1.0.1"
+        "intermax/php-integration-tools": "^2.0",
+        "orchestra/testbench": "^6.6"
     },
     "autoload-dev": {
         "psr-4": {
