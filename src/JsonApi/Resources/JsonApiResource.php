@@ -12,6 +12,9 @@ use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 use ReflectionClass;
 use ReflectionException;
 
+/**
+ * @property object $resource
+ */
 abstract class JsonApiResource extends JsonResource
 {
     use IncludesGathering;
@@ -93,7 +96,7 @@ abstract class JsonApiResource extends JsonResource
      * ].
      *
      * @param Request $request
-     * @return array<string,array>|null
+     * @return array<string,array<string, string>>|null
      */
     abstract protected function getRelations(Request $request): ?array;
 
@@ -113,7 +116,7 @@ abstract class JsonApiResource extends JsonResource
     protected function getId(): string
     {
         if (! isset($this->resource->id)) {
-            throw new JsonApiException('No id found, did you forget to implement '.__METHOD__.'?');
+            throw new JsonApiException(message: 'No id found, did you forget to implement '.__METHOD__.'?');
         }
 
         return $this->resource->id;
@@ -142,6 +145,7 @@ abstract class JsonApiResource extends JsonResource
             return null;
         }
 
+        /** @var array<mixed> $relations */
         $relations = [];
 
         foreach ($definedRelations as $definedRelation => $values) {
@@ -204,7 +208,11 @@ abstract class JsonApiResource extends JsonResource
         }
 
         if (
-            ($this->resourceIsEloquent && $this->resource->relationLoaded($definedRelation))
+            (
+                $this->resourceIsEloquent
+                && $this->resource instanceof Model
+                && $this->resource->relationLoaded($definedRelation)
+            )
             || (! $this->resourceIsEloquent && isset($this->resource->$definedRelation))
         ) {
             return $this->resource->$definedRelation;

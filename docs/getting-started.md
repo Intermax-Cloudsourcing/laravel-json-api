@@ -16,6 +16,25 @@ Then install:
 composer require intermax/laravel-api
 ```
 
+## Configuration
+
+To render exceptions in JSON:API format, you can add the middleware `Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions` to applicable routes. A sensible example would be in the HTTP Kernel in the API middleware group:
+
+```php
+// app/Http/Kernel.php
+
+use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
+...
+    protected $middlewareGroups = [
+        ...
+    
+        'api' => [
+            ...
+            RenderJsonApiExceptions::class,
+        ],
+    ];
+```
+
 ## Basic usage
 
 To create an endpoint you just create a Laravel route like you're used to doing. After that you need to create a resource. Let's assume we make an endpoint that returns a `UserResource`:
