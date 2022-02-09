@@ -2,6 +2,7 @@
 
 namespace Intermax\LaravelApi\JsonApi\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Http\Request;
@@ -39,6 +40,10 @@ class Handler implements ExceptionHandlerContract
             return $this->renderJsonApiException($e, $request);
         }
 
+        if ($e instanceof AuthorizationException) {
+            return $this->renderAuthorizationException($e, $request);
+        }
+
         return $this->renderDefaultException($e, $request);
     }
 
@@ -67,6 +72,14 @@ class Handler implements ExceptionHandlerContract
         return $e->toResource()
             ->toResponse($request)
             ->setStatusCode($e->getStatusCode());
+    }
+
+    protected function renderAuthorizationException(AuthorizationException $e, Request $request): Response
+    {
+        return $this->renderException($request, [new Error(
+            status: '403',
+            title: $e->getMessage(),
+        )], 403);
     }
 
     protected function renderDefaultException(Throwable $e, Request $request): Response

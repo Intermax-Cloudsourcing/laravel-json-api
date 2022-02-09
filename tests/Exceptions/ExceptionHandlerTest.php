@@ -3,6 +3,7 @@
 namespace Intermax\LaravelApi\Tests\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
@@ -47,9 +48,13 @@ class ExceptionHandlerTest extends TestCase
     {
         $handler = $this->getHandler();
 
+        $response = $handler->render($this->request, new Exception('Test'));
+
+        $this->assertEquals(500, $response->getStatusCode());
+
         $this->assertEquals(
             '{"errors":[{"status":"500","title":"Internal Server Error"}]}',
-            $handler->render($this->request, new Exception('Test'))->getContent()
+            $response->getContent()
         );
     }
 
@@ -62,6 +67,22 @@ class ExceptionHandlerTest extends TestCase
             419,
             $response->getStatusCode()
         );
+    }
+
+    /** @test */
+    public function it_renders_an_authorization_exception()
+    {
+        $response = $this->getHandler()->render(
+            $this->request,
+            new AuthorizationException('My authorization exception.'),
+        );
+
+        $content = json_decode($response->getContent());
+
+        $this->assertEquals(403, $response->getStatusCode());
+
+        $this->assertEquals('403', $content->errors[0]->status);
+        $this->assertEquals('My authorization exception.', $content->errors[0]->title);
     }
 
     /**
