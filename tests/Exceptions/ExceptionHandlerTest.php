@@ -13,6 +13,7 @@ use Intermax\LaravelApi\JsonApi\Exceptions\Handler;
 use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
 use Orchestra\Testbench\TestCase;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class ExceptionHandlerTest extends TestCase
@@ -47,8 +48,19 @@ class ExceptionHandlerTest extends TestCase
         $handler = $this->getHandler();
 
         $this->assertEquals(
-            '{"errors":[{"status":"500","title":"Server Error"}]}',
+            '{"errors":[{"status":"500","title":"Internal Server Error"}]}',
             $handler->render($this->request, new Exception('Test'))->getContent()
+        );
+    }
+
+    /** @test */
+    public function it_respects_the_status_code_of_the_exception()
+    {
+        $response = $this->getHandler()->render($this->request, new HttpException(419));
+
+        $this->assertEquals(
+            419,
+            $response->getStatusCode()
         );
     }
 
