@@ -30,6 +30,8 @@ class JsonApiCollectionResource extends ResourceCollection
             $collection = $resource->getCollection();
         }
 
+        assert($collection instanceof Collection);
+
         $collection->each(fn ($item) => $item->setIncludesBag($this->included));
 
         return $resource;

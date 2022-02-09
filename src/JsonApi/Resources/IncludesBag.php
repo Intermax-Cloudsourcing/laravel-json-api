@@ -16,6 +16,7 @@ class IncludesBag implements Arrayable
 
     /**
      * @param array<mixed> $resource
+     * @return void
      */
     public function add(array $resource): void
     {
@@ -27,9 +28,9 @@ class IncludesBag implements Arrayable
     }
 
     /**
-     * @param array<mixed> $resources
+     * @param array<array<mixed>> $resources
      */
-    public function addMany($resources): void
+    public function addMany(array $resources): void
     {
         foreach ($resources as $resource) {
             $this->add($resource);
@@ -41,6 +42,9 @@ class IncludesBag implements Arrayable
         return $this->items->isEmpty();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray(): array
     {
         return $this->items->toArray();
