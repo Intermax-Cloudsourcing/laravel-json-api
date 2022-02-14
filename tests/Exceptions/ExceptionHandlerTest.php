@@ -3,6 +3,7 @@
 namespace Intermax\LaravelApi\Tests\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Intermax\LaravelApi\JsonApi\Exceptions\Handler;
 use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
 use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
 use Orchestra\Testbench\TestCase;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class ExceptionHandlerTest extends TestCase
@@ -46,10 +48,41 @@ class ExceptionHandlerTest extends TestCase
     {
         $handler = $this->getHandler();
 
+        $response = $handler->render($this->request, new Exception('Test'));
+
+        $this->assertEquals(500, $response->getStatusCode());
+
         $this->assertEquals(
-            '{"errors":[{"status":"500","title":"Server Error"}]}',
-            $handler->render($this->request, new Exception('Test'))->getContent()
+            '{"errors":[{"status":"500","title":"Internal Server Error"}]}',
+            $response->getContent()
         );
+    }
+
+    /** @test */
+    public function it_respects_the_status_code_of_the_exception()
+    {
+        $response = $this->getHandler()->render($this->request, new HttpException(419));
+
+        $this->assertEquals(
+            419,
+            $response->getStatusCode()
+        );
+    }
+
+    /** @test */
+    public function it_renders_an_authorization_exception()
+    {
+        $response = $this->getHandler()->render(
+            $this->request,
+            new AuthorizationException('My authorization exception.'),
+        );
+
+        $content = json_decode($response->getContent());
+
+        $this->assertEquals(403, $response->getStatusCode());
+
+        $this->assertEquals('403', $content->errors[0]->status);
+        $this->assertEquals('My authorization exception.', $content->errors[0]->title);
     }
 
     /**

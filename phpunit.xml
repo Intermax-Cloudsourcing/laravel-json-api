@@ -4,6 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true"
          cacheResult="false"
+         printerClass="NunoMaduro\Collision\Adapters\Phpunit\Printer"
 >
     <coverage processUncoveredFiles="true">
         <include>

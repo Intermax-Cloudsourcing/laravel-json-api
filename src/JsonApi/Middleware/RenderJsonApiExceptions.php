@@ -4,6 +4,7 @@ namespace Intermax\LaravelApi\JsonApi\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ use Intermax\LaravelApi\JsonApi\Exceptions\Handler;
 class RenderJsonApiExceptions
 {
     public function __construct(
-        protected Application $app
+        protected Application $app,
+        protected Repository $config,
     ) {
     }
 
@@ -36,7 +38,7 @@ class RenderJsonApiExceptions
         $defaultHandler = $this->app->make(ExceptionHandler::class);
 
         $this->app->singleton(ExceptionHandler::class, function (Application $app) use ($defaultHandler) {
-            return new Handler($defaultHandler);
+            return new Handler($defaultHandler, $this->config);
         });
 
         return $next($request);
