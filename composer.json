@@ -1,7 +1,7 @@
 {
     "name": "intermax/laravel-json-api",
     "description": "Reusable filters, resources and other API tools.",
-    "keywords": ["api", "json:api", "laravel"],
+    "keywords": ["api", "json api", "laravel"],
     "authors": [
         {
             "name": "Patrick Hoogkamer",
