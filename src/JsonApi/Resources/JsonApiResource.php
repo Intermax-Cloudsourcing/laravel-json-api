@@ -98,7 +98,10 @@ abstract class JsonApiResource extends JsonResource
      * @param Request $request
      * @return array<string,array<string, string>>|null
      */
-    abstract protected function getRelations(Request $request): ?array;
+    protected function getRelations(Request $request): ?array
+    {
+        return null;
+    }
 
     /**
      * Expects an associative array of links for the resource, preferably use the route helper to generate links (eg:
@@ -107,7 +110,10 @@ abstract class JsonApiResource extends JsonResource
      * @param Request $request
      * @return array<string,string>|null
      */
-    abstract protected function getLinks(Request $request): ?array;
+    protected function getLinks(Request $request): ?array
+    {
+        return null;
+    }
 
     /**
      * @return string
