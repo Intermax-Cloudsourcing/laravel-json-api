@@ -88,7 +88,11 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
                     $filterValue = "%$filterValue%";
                 }
 
-                $query->where($columnName, $this->operators[$operator], $filterValue);
+                if ($operator == 'eq' && strtoupper($filterValue) == 'NULL') {
+                    $query->whereNull($columnName);
+                } else {
+                    $query->where($columnName, $this->operators[$operator], $filterValue);
+                }
             }
         }
     }
