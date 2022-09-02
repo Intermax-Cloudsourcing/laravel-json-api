@@ -81,7 +81,7 @@ class ResourceCollectionTest extends TestCase
     }
 
     /**
-     * @param Collection $collection
+     * @param  Collection  $collection
      * @return LengthAwarePaginator
      */
     protected function createPaginator(Collection $collection): LengthAwarePaginator

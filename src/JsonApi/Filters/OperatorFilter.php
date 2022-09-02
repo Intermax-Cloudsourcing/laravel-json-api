@@ -38,10 +38,10 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
     protected string $type;
 
     /**
-     * @param string $fieldName
-     * @param string|null $columnName
-     * @param string $type
-     * @param array|string[]|null $allowedOperators
+     * @param  string  $fieldName
+     * @param  string|null  $columnName
+     * @param  string  $type
+     * @param  array|string[]|null  $allowedOperators
      */
     public function __construct(
         string $fieldName,
@@ -61,9 +61,9 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
     }
 
     /**
-     * @param Builder $query
-     * @param mixed $value
-     * @param string $property
+     * @param  Builder  $query
+     * @param  mixed  $value
+     * @param  string  $property
      */
     public function __invoke(Builder $query, $value, string $property): void
     {

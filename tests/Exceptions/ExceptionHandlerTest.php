@@ -30,6 +30,7 @@ class ExceptionHandlerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws BindingResolutionException
      */
     public function it_is_registered_when_middleware_is_added()
@@ -41,6 +42,7 @@ class ExceptionHandlerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws BindingResolutionException
      * @throws Throwable
      */
@@ -87,6 +89,7 @@ class ExceptionHandlerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws BindingResolutionException
      * @throws Throwable
      */
@@ -115,6 +118,7 @@ class ExceptionHandlerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws BindingResolutionException
      * @throws Throwable
      */
@@ -143,6 +147,7 @@ class ExceptionHandlerTest extends TestCase
 
     /**
      * @return mixed
+     *
      * @throws BindingResolutionException
      * @throws Exception
      */

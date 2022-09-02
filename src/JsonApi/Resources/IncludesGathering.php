@@ -12,7 +12,7 @@ trait IncludesGathering
     }
 
     /**
-     * @param IncludesBag $included
+     * @param  IncludesBag  $included
      */
     public function setIncludesBag($included = null): void
     {
