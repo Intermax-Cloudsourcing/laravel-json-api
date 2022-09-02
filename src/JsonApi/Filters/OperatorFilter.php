@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Intermax\LaravelOpenApi\Contracts\Filter as OpenApiFilter;
+use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 use Spatie\QueryBuilder\Filters\Filter as QueryBuilderFilter;
 
-class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
+class OperatorFilter implements QueryBuilderFilter, Filter
 {
     /**
      * @var array|string[]
@@ -98,7 +98,7 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
     }
 
     /**
-     * @return array|string[]
+     * @return array<QueryParameter>
      */
     public function parameters(): array
     {
@@ -106,7 +106,17 @@ class OperatorFilter implements QueryBuilderFilter, OpenApiFilter, Filter
 
         foreach ($this->operators as $operator => $value) {
             if (in_array($operator, $this->allowedOperators)) {
-                $parameters[sprintf('filter[%s][%s]', $this->fieldName, $operator)] = $this->type;
+                if ($operator == 'eq') {
+                    $parameters[] = new QueryParameter(
+                        name: 'filter['.$this->fieldName.']',
+                        type: $this->type,
+                    );
+                }
+
+                $parameters[] = new QueryParameter(
+                    name: 'filter['.$this->fieldName.']['.$operator.']',
+                    type: $this->type,
+                );
             }
         }
 
