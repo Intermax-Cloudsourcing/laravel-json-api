@@ -17,11 +17,11 @@ class JsonApiException extends HttpException implements RenderableError
     protected ?iterable $errors;
 
     /**
-     * @param int $statusCode
-     * @param string|null $message
-     * @param Throwable|null $previous
-     * @param int|null $code
-     * @param iterable|Error[]|null $errors
+     * @param  int  $statusCode
+     * @param  string|null  $message
+     * @param  Throwable|null  $previous
+     * @param  int|null  $code
+     * @param  iterable|Error[]|null  $errors
      */
     public function __construct(
         int $statusCode = 500,

@@ -9,8 +9,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 class FilterResolver
 {
     /**
-     * @param FilterRequest $request
-     * @param Builder $query
+     * @param  FilterRequest  $request
+     * @param  Builder  $query
      */
     public function resolve(FilterRequest $request, $query): void
     {

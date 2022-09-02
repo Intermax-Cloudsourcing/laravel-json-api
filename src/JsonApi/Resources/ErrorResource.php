@@ -21,8 +21,9 @@ class ErrorResource extends JsonResource
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return array<string, string|array<mixed>|MissingValue>
+     *
      * @throws JsonApiException
      */
     public function toArray($request): array

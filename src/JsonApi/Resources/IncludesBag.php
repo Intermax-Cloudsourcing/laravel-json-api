@@ -15,7 +15,7 @@ class IncludesBag implements Arrayable
     }
 
     /**
-     * @param array<mixed> $resource
+     * @param  array<mixed>  $resource
      * @return void
      */
     public function add(array $resource): void
@@ -28,7 +28,7 @@ class IncludesBag implements Arrayable
     }
 
     /**
-     * @param array<array<mixed>> $resources
+     * @param  array<array<mixed>>  $resources
      */
     public function addMany(array $resources): void
     {

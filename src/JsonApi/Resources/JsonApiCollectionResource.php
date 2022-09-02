@@ -38,7 +38,7 @@ class JsonApiCollectionResource extends ResourceCollection
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return array<string, mixed>
      */
     public function with($request)
@@ -60,7 +60,7 @@ class JsonApiCollectionResource extends ResourceCollection
     }
 
     /**
-     * @param mixed $resource
+     * @param  mixed  $resource
      * @return Collection|mixed
      */
     protected function preparePaginationFields($resource)

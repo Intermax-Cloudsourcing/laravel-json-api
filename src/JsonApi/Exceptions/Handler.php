@@ -24,8 +24,8 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception into an HTTP response.
      *
-     * @param Request $request
-     * @param Throwable $e
+     * @param  Request  $request
+     * @param  Throwable  $e
      * @return Response
      *
      * @throws Throwable
@@ -117,7 +117,7 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * @param iterable<Error> $errors
+     * @param  iterable<Error>  $errors
      * @return Response
      */
     protected function renderException(Request $request, iterable $errors, int|string $statusCode): Response

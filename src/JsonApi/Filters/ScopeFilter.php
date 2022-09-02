@@ -15,8 +15,8 @@ class ScopeFilter implements OpenApiFilter, Filter
     protected array $parameters;
 
     /**
-     * @param string $fieldName
-     * @param string[] $parameters
+     * @param  string  $fieldName
+     * @param  string[]  $parameters
      */
     public function __construct(string $fieldName, array $parameters = [])
     {
