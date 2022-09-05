@@ -2,34 +2,38 @@
 
 namespace Intermax\LaravelApi\JsonApi\Filters;
 
-use Intermax\LaravelOpenApi\Contracts\Filter as OpenApiFilter;
+use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;
 use Spatie\QueryBuilder\AllowedFilter;
 
-class ScopeFilter implements OpenApiFilter, Filter
+class ScopeFilter implements Filter
 {
-    protected string $fieldName;
-
-    /**
-     * @var string[]
-     */
-    protected array $parameters;
-
     /**
      * @param  string  $fieldName
-     * @param  string[]  $parameters
+     * @param  string  $type
+     * @param  array<int, string>|null  $options
+     * @param  mixed|null  $example
      */
-    public function __construct(string $fieldName, array $parameters = [])
-    {
-        $this->fieldName = $fieldName;
-        $this->parameters = $parameters;
+    public function __construct(
+        protected string $fieldName,
+        protected string $type = 'string',
+        protected ?array $options = null,
+        protected mixed $example = null,
+    ) {
     }
 
     /**
-     * @return string[]
+     * @return array<QueryParameter>
      */
     public function parameters(): array
     {
-        return $this->parameters;
+        return [
+            new QueryParameter(
+                name: 'filter['.$this->fieldName.']',
+                type: $this->type,
+                options: $this->options,
+                example: $this->example,
+            ),
+        ];
     }
 
     public function allowedFilter(): AllowedFilter
