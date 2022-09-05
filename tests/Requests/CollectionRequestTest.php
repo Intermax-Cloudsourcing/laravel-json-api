@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
+namespace Intermax\LaravelApi\Tests\Requests;
 
 use Illuminate\Database\Eloquent\Collection;
 use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
