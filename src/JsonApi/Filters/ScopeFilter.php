@@ -20,6 +20,7 @@ class ScopeFilter implements Filter
         protected string $type = 'string',
         protected ?array $options = null,
         protected mixed $example = null,
+        protected ?string $scopeName = null,
     ) {
     }
 
@@ -40,6 +41,9 @@ class ScopeFilter implements Filter
 
     public function allowedFilter(): AllowedFilter
     {
-        return AllowedFilter::scope($this->fieldName);
+        return AllowedFilter::scope(
+            name: $this->fieldName,
+            internalName: $this->scopeName,
+        );
     }
 }
