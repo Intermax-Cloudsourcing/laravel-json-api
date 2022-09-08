@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi\JsonApi\Resources;
 
 use Illuminate\Database\Eloquent\Model;
@@ -127,7 +129,7 @@ abstract class JsonApiResource extends JsonResource
             throw new JsonApiException(message: 'No id found, did you forget to implement '.__METHOD__.'?');
         }
 
-        return $this->resource->id;
+        return (string) $this->resource->id;
     }
 
     /**

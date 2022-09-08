@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
 
 use Illuminate\Database\Eloquent\Collection;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi\JsonApi\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -88,7 +90,7 @@ class OperatorFilter implements QueryBuilderFilter, Filter
                     $filterValue = "%$filterValue%";
                 }
 
-                if ($operator == 'eq' && strtoupper($filterValue) == 'NULL') {
+                if ($operator == 'eq' && strtoupper((string) $filterValue) == 'NULL') {
                     $query->whereNull($columnName);
                 } else {
                     $query->where($columnName, $this->operators[$operator], $filterValue);
