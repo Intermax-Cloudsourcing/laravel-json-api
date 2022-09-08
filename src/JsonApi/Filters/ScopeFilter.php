@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi\JsonApi\Filters;
 
 use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;

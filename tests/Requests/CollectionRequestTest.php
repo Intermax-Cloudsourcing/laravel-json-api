@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi\Tests\Requests;
 
 use Illuminate\Database\Eloquent\Collection;
