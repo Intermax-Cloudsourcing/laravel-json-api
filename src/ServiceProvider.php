@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intermax\LaravelApi;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
