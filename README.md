@@ -1,15 +1,15 @@
-# Laravel API
+# Laravel JSON:API
 
-Laravel API is a package to quickly build an API according to the JSON:API specification.
+Laravel API is a package to quickly build an API according to the JSON:API specification. It also generates OpenAPI documentation on the fly based on your API endpoints.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Basic usage](#basic-usage)
-- [Filters](#filters)
+- [Query Parameters](#query-parameters)
     * [FilterRequest](#filterrequest)
     * [Controller](#controller)
     * [Filter types](#filter-types)
-    * [Custom filters](#custom-filters)
+- [OpenAPI generation](#openapi-generation)
 
 ## Installation
 
@@ -36,7 +36,7 @@ use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
     ];
 ```
 
-## Basic usage
+## Basic Usage
 
 To create an endpoint you just create a Laravel route like you're used to doing. After that you need to create a resource. Let's assume we make an endpoint that returns a `UserResource`:
 
@@ -81,27 +81,28 @@ class UserController
 }
 ```
 
-::: tip
-Make sure to type hint your resource on the controller method so Open API docs can be generated correctly. Read more about this on the [Open API generation page](open-api-generation.md)
-:::
 
-## Filters
+> ❗ **TIP**: Make sure to type hint your resource on the controller method so Open API docs can be generated correctly. Read more about this at [Open API generation](open-api-generation.md)
 
-Most APIs have ways to apply filters to your requests. With JSON:API this is done by applying a `filter` query string to the url:
+## Query Parameters
+
+You might want ways to apply filters, sorts and includes to your requests. With JSON:API this is done by applying a `filter`, `sort` and include variables to the query string:
 
 ```
-/users?filter[isAdmin]=true
+/users?filter[isAdmin]=true&sort=name&include=team
 ```
 
 ### FilterRequest
-With Laravel API you can configure some predefined filters or add your own. To do this you can add a `FilterRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `FilterRequest` needs to extend the `Intermax\LaravelApi\JsonApi\Requests\FilterRequest`. It might look like this:
+With this package you can configure some predefined filters or add your own. You can also add includes and sorts. To do this you can add a `FilterRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `FilterRequest` needs to extend the `Intermax\LaravelApi\JsonApi\Requests\FilterRequest`. It might look like this:
 
 ```php 
 namespace App\Http\Requests;
 
-use App\Http\Filters\ScopeFilter;
+use Intermax\LaravelApi\JsonApi\Filters\ScopeFilter;
 use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
 use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
+use Intermax\LaravelApi\JsonApi\Sorts\Sort;
+use Intermax\LaravelApi\JsonApi\Includes\Relation;
 
 class UserCollectionRequest extends FilterRequest
 {
@@ -112,13 +113,27 @@ class UserCollectionRequest extends FilterRequest
             new ScopeFilter('isAdmin'),
         ];
     }
+    
+    public function sorts(): array
+    {
+        return [
+            new Sort('name'),
+        ];
+    }
+    
+    public function includes(): array
+    {
+        return [
+            new Relation('team'), // Eloquent relation name
+        ];
+    }
 }
 ```
 
 This specific `FilterRequest` adds two filters, `filter[createdAt]` and `filter[isAdmin]`. To see how these specific filters work, see [filter types](#filter-types).
 
 ### Controller
-To make the filters actually do their magic, we need a little more. In the controller the `FilterResolver` needs to be used to apply the filters to the Eloquent query:
+To make the filters, includes and sorts actually do their magic, we need a little more. In the controller the `FilterResolver` needs to be used to apply the filters to the Eloquent query. Under the hood this uses the [laravel-query-builder](https://github.com/spatie/laravel-query-builder) package from spatie.
 
 ```php
 use Intermax\LaravelApi\JsonApi\Filters\FilterResolver;
@@ -131,13 +146,80 @@ class UserController
         
         $filterResolver->resolve($request, $query);
         
-        $query->orderBy(...) // You can alter the query more if needed
+        $query->where(...) // You can alter the query further if needed
         
         return new UserResourceCollection($query->jsonPaginate());
     }
 }
 ```
 
-### Filter types
+### Filter Types
 
-### Custom filters
+This package provides two types of filters out of the box. One is the `ScopeFilter`. Like its name implies this will call the scope with the value that's being sent.
+
+The second one is called the `OperatorFilter`. It allows you to query with a set of operators:
+
+- Equals: `filter[column]=value` or `filter[column][eq]=value`
+- Not equals: `filter[column][nq]=value`
+- Greater than: `filter[column][gt]=value`
+- Less than: `filter[column][lt]=value`
+- Greater than or equals: `filter[column][gte]=value`
+- Less than or equals: `filter[column][lte]=value`
+- Contains: `filter[column][contains]=value`
+
+Allowed operators can be specified (default all are allowed):
+
+```php
+use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter
+
+new OperatorFilter(
+    fieldName: 'name',
+    allowedOperators: [
+        'eq',
+        'nq',
+        'contains',
+    ], 
+);
+```
+
+## OpenAPI Generation
+
+This package leverages the [Laravel Open API package](https://github.com/Intermax-Cloudsourcing/laravel-open-api) to provide a `/docs` endpoint (and `/docs/json` and `/docs/yaml` endpoints).
+
+The open API package will scan for api routes, read FormRequests, determine ApiResources and try to guess the output of the resource. We aim to generate as much documentation as possible with a minimal amount of configuration.
+
+There are a couple of things that need to be in place for this to work best:
+
+- Use the FilterRequest for 'collection-type' endpoints, even if you don't use Eloquent it will still be able to infer the query parameters. You can even validate query parameters with rules.
+- Typehint the resource you want to return in your controller method.
+- Use FormRequest validation for your POST/PUT/PATCH endpoints and include all fields in it (even if they have no validation). The package uses this to determine the request body.
+- The package will get all your fields/attributes from the resource array.
+
+### Improving resource attribute data types
+
+If you look at the docs and see all your resource attributes are listed as string in the array, there is one more thing you can do to improve it. Wrap every field in a `Intermax\LaravelOpenApi\Generator\Values\Value` type object:
+
+```php
+use Intermax\LaravelOpenApi\Generator\Values\StringValue;
+use Intermax\LaravelOpenApi\Generator\Values\IntegerValue;
+use Intermax\LaravelOpenApi\Generator\Values\NumberValue;
+use Intermax\LaravelOpenApi\Generator\Values\DateTimeValue;
+use Intermax\LaravelOpenApi\Generator\Values\BooleanValue;
+use Carbon\Carbon;
+use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
+
+class UserResource extends JsonApiResource
+{
+    public function getAttributes(Request $request): array
+    {
+        return [
+            'age' => new IntegerValue(fn () => Carbon::now()->diffInYears($this->resource->birthDate)),
+            'email' => new StringValue(fn () => $this->resource->email),
+            'name' => new StringValue(fn () => $this->resource->name),
+            'createdAt' => new DateTimeValue(fn () => $this->resource->created_at),
+            'isAdmin' => new BooleanValue(fn () => $this->resource->is_admin),
+        ];
+    }
+}
+```
+
