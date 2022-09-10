@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Utilities;
+namespace Intermax\LaravelJsonApi\Tests\Utilities;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Intermax\LaravelApi\JsonApi\Resources\RelationType;
+use Intermax\LaravelJsonApi\Resources\RelationType;
 
 class UserResourceWithCustomRelation extends UserResource
 {

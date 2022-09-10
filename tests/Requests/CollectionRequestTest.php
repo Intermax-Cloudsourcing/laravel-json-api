@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Requests;
+namespace Intermax\LaravelJsonApi\Tests\Requests;
 
 use Illuminate\Database\Eloquent\Collection;
-use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
-use Intermax\LaravelApi\JsonApi\Filters\ScopeFilter;
-use Intermax\LaravelApi\JsonApi\Includes\Relation;
-use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
-use Intermax\LaravelApi\JsonApi\Sorts\Sort;
+use Intermax\LaravelJsonApi\Filters\OperatorFilter;
+use Intermax\LaravelJsonApi\Filters\ScopeFilter;
+use Intermax\LaravelJsonApi\Includes\Relation;
+use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Sorts\Sort;
 use Orchestra\Testbench\TestCase;
 
 class CollectionRequestTest extends TestCase

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Utilities;
+namespace Intermax\LaravelJsonApi\Tests\Utilities;
 
 use Faker\Factory;
 use Illuminate\Support\Carbon;

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Requests;
+namespace Intermax\LaravelJsonApi\Tests\Requests;
 
-use Intermax\LaravelApi\JsonApi\Filters\FilterResolver;
-use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
-use Intermax\LaravelApi\JsonApi\Includes\Relation;
-use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
-use Intermax\LaravelApi\JsonApi\Sorts\Sort;
-use Intermax\LaravelApi\ServiceProvider;
-use Intermax\LaravelApi\Tests\Utilities\User;
+use Intermax\LaravelJsonApi\Filters\FilterResolver;
+use Intermax\LaravelJsonApi\Filters\OperatorFilter;
+use Intermax\LaravelJsonApi\Includes\Relation;
+use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\ServiceProvider;
+use Intermax\LaravelJsonApi\Sorts\Sort;
+use Intermax\LaravelJsonApi\Tests\Utilities\User;
 use Orchestra\Testbench\TestCase;
 
 class QueryResolverTest extends TestCase

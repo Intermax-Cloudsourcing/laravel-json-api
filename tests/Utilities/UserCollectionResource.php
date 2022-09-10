@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Utilities;
+namespace Intermax\LaravelJsonApi\Tests\Utilities;
 
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiCollectionResource;
+use Intermax\LaravelJsonApi\Resources\JsonApiCollectionResource;
 
 class UserCollectionResource extends JsonApiCollectionResource
 {
