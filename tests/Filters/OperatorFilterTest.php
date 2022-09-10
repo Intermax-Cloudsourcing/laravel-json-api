@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Filters;
+namespace Intermax\LaravelJsonApi\Tests\Filters;
 
-use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
-use Intermax\LaravelApi\Tests\Utilities\User;
+use Intermax\LaravelJsonApi\Filters\OperatorFilter;
+use Intermax\LaravelJsonApi\Tests\Utilities\User;
 use Orchestra\Testbench\TestCase;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;

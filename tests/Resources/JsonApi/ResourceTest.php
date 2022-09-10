@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
+namespace Intermax\LaravelJsonApi\Tests\Resources\JsonApi;
 
 use Illuminate\Database\Eloquent\Collection;
-use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
-use Intermax\LaravelApi\Tests\Utilities\UserResource;
-use Intermax\LaravelApi\Tests\Utilities\UserResourceWithCustomRelation;
+use Intermax\LaravelJsonApi\Tests\Utilities\CreateUserTrait;
+use Intermax\LaravelJsonApi\Tests\Utilities\UserResource;
+use Intermax\LaravelJsonApi\Tests\Utilities\UserResourceWithCustomRelation;
 use Orchestra\Testbench\TestCase;
 
 class ResourceTest extends TestCase

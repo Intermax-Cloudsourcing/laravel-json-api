@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Resources\JsonApi;
+namespace Intermax\LaravelJsonApi\Tests\Resources\JsonApi;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Intermax\LaravelApi\Tests\Utilities\CreateUserTrait;
-use Intermax\LaravelApi\Tests\Utilities\UserCollectionResource;
+use Intermax\LaravelJsonApi\Tests\Utilities\CreateUserTrait;
+use Intermax\LaravelJsonApi\Tests\Utilities\UserCollectionResource;
 use Orchestra\Testbench\TestCase;
 
 class ResourceCollectionTest extends TestCase

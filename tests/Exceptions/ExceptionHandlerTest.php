@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Exceptions;
+namespace Intermax\LaravelJsonApi\Tests\Exceptions;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -11,10 +11,10 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
-use Intermax\LaravelApi\JsonApi\Error;
-use Intermax\LaravelApi\JsonApi\Exceptions\Handler;
-use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
-use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
+use Intermax\LaravelJsonApi\Error;
+use Intermax\LaravelJsonApi\Exceptions\Handler;
+use Intermax\LaravelJsonApi\Exceptions\JsonApiException;
+use Intermax\LaravelJsonApi\Middleware\RenderJsonApiExceptions;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;

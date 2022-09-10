@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi\Tests\Utilities;
+namespace Intermax\LaravelJsonApi\Tests\Utilities;
 
 use Illuminate\Http\Request;
-use Intermax\LaravelApi\JsonApi\Exceptions\JsonApiException;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
-use Intermax\LaravelApi\JsonApi\Resources\RelationType;
+use Intermax\LaravelJsonApi\Exceptions\JsonApiException;
+use Intermax\LaravelJsonApi\Resources\JsonApiResource;
+use Intermax\LaravelJsonApi\Resources\RelationType;
 
 class UserResource extends JsonApiResource
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelApi;
+namespace Intermax\LaravelJsonApi;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {

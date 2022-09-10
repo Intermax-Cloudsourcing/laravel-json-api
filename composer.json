@@ -24,14 +24,14 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Intermax\\LaravelApi\\Tests\\": "tests"
+            "Intermax\\LaravelJsonApi\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Intermax\\LaravelApi\\": "src/"
+            "Intermax\\LaravelJsonApi\\": "src/"
         }
     },
     "config": {
