@@ -50,7 +50,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Intermax\\LaravelApi\\ServiceProvider"
+                "Intermax\\LaravelJsonApi\\ServiceProvider"
             ]
         }
     }
