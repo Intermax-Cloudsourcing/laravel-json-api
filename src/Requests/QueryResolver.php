@@ -17,8 +17,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 class QueryResolver
 {
     /**
+     * @template TModelClass of Model
+     *
      * @param  CollectionRequest  $request
-     * @param  Builder<Model>  $query
+     * @param  Builder<TModelClass>  $query
      */
     public function resolve(CollectionRequest $request, Builder $query): void
     {
