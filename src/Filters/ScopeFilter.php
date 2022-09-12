@@ -14,6 +14,7 @@ class ScopeFilter implements Filter
      * @param  string  $type
      * @param  array<int, string>|null  $options
      * @param  mixed|null  $example
+     * @param  string|null  $scopeName
      */
     public function __construct(
         protected string $fieldName,

@@ -103,7 +103,7 @@ class Handler implements ExceptionHandlerContract
         if ($this->config->get('app.debug')) {
             $error = new Error(
                 status: $statusCode,
-                code: $e->getCode(),
+                code: (string) $e->getCode(),
                 title: $e::class,
                 detail: $e->getMessage(),
                 meta: ['trace' => $e->getTrace()]
@@ -119,7 +119,9 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
+     * @param  Request  $request
      * @param  iterable<Error>  $errors
+     * @param  int|string  $statusCode
      * @return Response
      */
     protected function renderException(Request $request, iterable $errors, int|string $statusCode): Response

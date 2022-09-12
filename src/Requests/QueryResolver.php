@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelJsonApi\Filters;
+namespace Intermax\LaravelJsonApi\Requests;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Intermax\LaravelJsonApi\Filters\Filter;
 use Intermax\LaravelJsonApi\Includes\Contracts\Relation;
-use Intermax\LaravelJsonApi\Requests\FilterRequest;
 use Intermax\LaravelJsonApi\Sorts\Contracts\Sort;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class FilterResolver
+class QueryResolver
 {
     /**
      * @param  FilterRequest  $request
      * @param  Builder<Model>  $query
      */
-    public function resolve(FilterRequest $request, $query): void
+    public function resolve(FilterRequest $request, Builder $query): void
     {
         $filters = $this->filters($request);
 
