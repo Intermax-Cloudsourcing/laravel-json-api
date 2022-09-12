@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intermax\LaravelJsonApi\Filters;
+namespace Intermax\LaravelJsonApi\Filters\Contracts;
 
 use Intermax\LaravelOpenApi\Contracts\QueryParameter;
 use Spatie\QueryBuilder\AllowedFilter;

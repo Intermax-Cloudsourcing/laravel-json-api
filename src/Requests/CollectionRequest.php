@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intermax\LaravelJsonApi\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Intermax\LaravelJsonApi\Filters\Filter;
+use Intermax\LaravelJsonApi\Filters\Contracts\Filter;
 use Intermax\LaravelJsonApi\Includes\Contracts\Relation;
 use Intermax\LaravelJsonApi\Sorts\Contracts\Sort;
 use Intermax\LaravelOpenApi\Contracts\HasQueryParameters;
