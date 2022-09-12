@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Intermax\LaravelJsonApi\Filters\OperatorFilter;
 use Intermax\LaravelJsonApi\Filters\ScopeFilter;
 use Intermax\LaravelJsonApi\Includes\Relation;
-use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Requests\CollectionRequest;
 use Intermax\LaravelJsonApi\Sorts\Sort;
 use Orchestra\Testbench\TestCase;
 
@@ -17,7 +17,7 @@ class CollectionRequestTest extends TestCase
     /** @test */
     public function it_outputs_parameters(): void
     {
-        $request = new class() extends FilterRequest
+        $request = new class() extends CollectionRequest
         {
             public function filters(): array
             {
@@ -45,7 +45,7 @@ class CollectionRequestTest extends TestCase
     /** @test */
     public function it_outputs_includes_and_sorts_and_filters_as_parameters()
     {
-        $request = new class() extends FilterRequest
+        $request = new class() extends CollectionRequest
         {
             public function includes(): array
             {
