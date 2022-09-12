@@ -10,7 +10,7 @@ use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class JsonApiCollectionResource extends ResourceCollection
+class JsonApiResourceCollection extends ResourceCollection
 {
     use IncludesGathering;
 

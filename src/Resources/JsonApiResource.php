@@ -173,7 +173,7 @@ abstract class JsonApiResource extends JsonResource
             if ($relationData) {
                 $resourceClass = $values['resource'];
 
-                /** @var JsonApiCollectionResource<mixed>|JsonApiResource $resource */
+                /** @var JsonApiResourceCollection<mixed>|JsonApiResource $resource */
                 $resource = new $resourceClass($relationData, $this->included);
 
                 $resolvedResource = $resource->resolve();
