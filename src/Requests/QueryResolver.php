@@ -6,7 +6,7 @@ namespace Intermax\LaravelJsonApi\Requests;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Intermax\LaravelJsonApi\Filters\Filter;
+use Intermax\LaravelJsonApi\Filters\Contracts\Filter;
 use Intermax\LaravelJsonApi\Includes\Contracts\Relation;
 use Intermax\LaravelJsonApi\Sorts\Contracts\Sort;
 use Spatie\QueryBuilder\AllowedFilter;

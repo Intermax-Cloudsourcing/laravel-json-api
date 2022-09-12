@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intermax\LaravelJsonApi\Filters;
 
+use Intermax\LaravelJsonApi\Filters\Contracts\Filter;
 use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;
 use Spatie\QueryBuilder\AllowedFilter;
 

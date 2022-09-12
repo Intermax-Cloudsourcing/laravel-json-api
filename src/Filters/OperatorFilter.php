@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Intermax\LaravelJsonApi\Filters\Contracts\Filter;
 use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
