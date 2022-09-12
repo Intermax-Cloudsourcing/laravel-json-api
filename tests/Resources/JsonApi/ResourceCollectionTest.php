@@ -7,7 +7,7 @@ namespace Intermax\LaravelJsonApi\Tests\Resources\JsonApi;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Intermax\LaravelJsonApi\Tests\Utilities\CreateUserTrait;
-use Intermax\LaravelJsonApi\Tests\Utilities\UserCollectionResource;
+use Intermax\LaravelJsonApi\Tests\Utilities\UserResourceCollection;
 use Orchestra\Testbench\TestCase;
 
 class ResourceCollectionTest extends TestCase
@@ -34,7 +34,7 @@ class ResourceCollectionTest extends TestCase
 
         $paginator = $this->createPaginator($collection);
 
-        $resource = new UserCollectionResource($paginator);
+        $resource = new UserResourceCollection($paginator);
 
         $response = json_decode($resource->toResponse(app('request'))->content());
 
@@ -65,7 +65,7 @@ class ResourceCollectionTest extends TestCase
 
         $paginator = $this->createPaginator($collection);
 
-        $resource = new UserCollectionResource($paginator);
+        $resource = new UserResourceCollection($paginator);
 
         $response = json_decode($resource->toResponse(app('request'))->content());
 

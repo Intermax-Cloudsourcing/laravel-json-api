@@ -38,7 +38,7 @@ class UserResource extends JsonApiResource
                 'links' => [
                     'related' => 'http://example.com/users/'.$this->getId().'/friends',
                 ],
-                'resource' => UserCollectionResource::class,
+                'resource' => UserResourceCollection::class,
             ],
             'bestFriend' => [
                 'type' => RelationType::ONE,
