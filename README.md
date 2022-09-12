@@ -19,12 +19,12 @@ composer require intermax/laravel-json-api
 
 ## Configuration
 
-To render exceptions in JSON:API format, you can add the middleware `Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions` to applicable routes. A sensible example would be in the HTTP Kernel in the API middleware group:
+To render exceptions in JSON:API format, you can add the middleware `Intermax\LaravelJsonApi\Middleware\RenderJsonApiExceptions` to applicable routes. A sensible example would be in the HTTP Kernel in the API middleware group:
 
 ```php
 // app/Http/Kernel.php
 
-use Intermax\LaravelApi\JsonApi\Middleware\RenderJsonApiExceptions;
+use Intermax\LaravelJsonApi\Middleware\RenderJsonApiExceptions;
 ...
     protected $middlewareGroups = [
         ...
@@ -42,7 +42,7 @@ To create an endpoint you just create a Laravel route like you're used to doing.
 
 ```php
 use Illuminate\Http\Request;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
+use Intermax\LaravelJsonApi\Resources\JsonApiResource;
 
 class UserResource extends JsonApiResource
 {
@@ -93,16 +93,16 @@ You might want ways to apply filters, sorts and includes to your requests. With 
 ```
 
 ### FilterRequest
-With this package you can configure some predefined filters or add your own. You can also add includes and sorts. To do this you can add a `FilterRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `FilterRequest` needs to extend the `Intermax\LaravelApi\JsonApi\Requests\FilterRequest`. It might look like this:
+With this package you can configure some predefined filters or add your own. You can also add includes and sorts. To do this you can add a `FilterRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `FilterRequest` needs to extend the `Intermax\LaravelJsonApi\Requests\FilterRequest`. It might look like this:
 
 ```php 
 namespace App\Http\Requests;
 
-use Intermax\LaravelApi\JsonApi\Filters\ScopeFilter;
-use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter;
-use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
-use Intermax\LaravelApi\JsonApi\Sorts\Sort;
-use Intermax\LaravelApi\JsonApi\Includes\Relation;
+use Intermax\LaravelJsonApi\Filters\ScopeFilter;
+use Intermax\LaravelJsonApi\Filters\OperatorFilter;
+use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Sorts\Sort;
+use Intermax\LaravelJsonApi\Includes\Relation;
 
 class UserCollectionRequest extends FilterRequest
 {
@@ -133,18 +133,18 @@ class UserCollectionRequest extends FilterRequest
 This specific `FilterRequest` adds two filters, `filter[createdAt]` and `filter[isAdmin]`. To see how these specific filters work, see [filter types](#filter-types).
 
 ### Controller
-To make the filters, includes and sorts actually do their magic, we need a little more. In the controller the `FilterResolver` needs to be used to apply the filters to the Eloquent query. Under the hood this uses the [laravel-query-builder](https://github.com/spatie/laravel-query-builder) package from spatie.
+To make the filters, includes and sorts actually do their magic, we need a little more. In the controller the `QueryResolver` needs to be used to apply the filters to the Eloquent query. Under the hood this uses the [laravel-query-builder](https://github.com/spatie/laravel-query-builder) package from spatie.
 
 ```php
-use Intermax\LaravelApi\JsonApi\Filters\FilterResolver;
+use Intermax\LaravelJsonApi\Requests\QueryResolver;
 
 class UserController
 {
-    public function index(UserCollectionRequest $request, FilterResolver $filterResolver): UserResourceCollection
+    public function index(UserCollectionRequest $request, QueryResolver $queryResolver): UserResourceCollection
     {
         $query = User::query();
         
-        $filterResolver->resolve($request, $query);
+        $queryResolver->resolve($request, $query);
         
         $query->where(...) // You can alter the query further if needed
         
@@ -170,7 +170,7 @@ The second one is called the `OperatorFilter`. It allows you to query with a set
 Allowed operators can be specified (default all are allowed):
 
 ```php
-use Intermax\LaravelApi\JsonApi\Filters\OperatorFilter
+use Intermax\LaravelJsonApi\Filters\OperatorFilter
 
 new OperatorFilter(
     fieldName: 'name',
@@ -206,7 +206,7 @@ use Intermax\LaravelOpenApi\Generator\Values\NumberValue;
 use Intermax\LaravelOpenApi\Generator\Values\DateTimeValue;
 use Intermax\LaravelOpenApi\Generator\Values\BooleanValue;
 use Carbon\Carbon;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
+use Intermax\LaravelJsonApi\Resources\JsonApiResource;
 
 class UserResource extends JsonApiResource
 {

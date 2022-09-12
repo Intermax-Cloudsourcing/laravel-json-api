@@ -119,7 +119,7 @@ class OperatorFilterTest extends TestCase
         $this->assertCount(3, $query->getBindings());
     }
 
-    protected function createQuery($field)
+    protected function createQuery($field): QueryBuilder
     {
         return QueryBuilder::for(User::class)
             ->allowedFilters([

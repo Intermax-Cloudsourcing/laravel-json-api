@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Intermax\LaravelJsonApi\Tests\Requests;
 
-use Intermax\LaravelJsonApi\Filters\FilterResolver;
 use Intermax\LaravelJsonApi\Filters\OperatorFilter;
 use Intermax\LaravelJsonApi\Includes\Relation;
 use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Requests\QueryResolver;
 use Intermax\LaravelJsonApi\ServiceProvider;
 use Intermax\LaravelJsonApi\Sorts\Sort;
 use Intermax\LaravelJsonApi\Tests\Utilities\User;
@@ -35,8 +35,8 @@ class QueryResolverTest extends TestCase
 
         request()->replace(['include' => 'friends']);
 
-        /** @var FilterResolver $queryResolver */
-        $queryResolver = $this->app->make(FilterResolver::class);
+        /** @var QueryResolver $queryResolver */
+        $queryResolver = $this->app->make(QueryResolver::class);
 
         $query = User::query();
         $queryResolver->resolve($request, $query);
@@ -59,8 +59,8 @@ class QueryResolverTest extends TestCase
 
         request()->replace(['sort' => 'name']);
 
-        /** @var FilterResolver $queryResolver */
-        $queryResolver = $this->app->make(FilterResolver::class);
+        /** @var QueryResolver $queryResolver */
+        $queryResolver = $this->app->make(QueryResolver::class);
 
         $query = User::query();
         $queryResolver->resolve($request, $query);
@@ -83,8 +83,8 @@ class QueryResolverTest extends TestCase
 
         request()->replace(['filter' => ['name' => 'Test']]);
 
-        /** @var FilterResolver $queryResolver */
-        $queryResolver = $this->app->make(FilterResolver::class);
+        /** @var QueryResolver $queryResolver */
+        $queryResolver = $this->app->make(QueryResolver::class);
 
         $query = User::query();
         $queryResolver->resolve($request, $query);
