@@ -17,10 +17,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 class QueryResolver
 {
     /**
-     * @param  FilterRequest  $request
+     * @param  CollectionRequest  $request
      * @param  Builder<Model>  $query
      */
-    public function resolve(FilterRequest $request, Builder $query): void
+    public function resolve(CollectionRequest $request, Builder $query): void
     {
         $filters = $this->filters($request);
 
@@ -44,28 +44,28 @@ class QueryResolver
     }
 
     /**
-     * @param  FilterRequest  $request
+     * @param  CollectionRequest  $request
      * @return array<AllowedFilter>
      */
-    protected function filters(FilterRequest $request): array
+    protected function filters(CollectionRequest $request): array
     {
         return array_map(fn (Filter $filter) => $filter->allowedFilter(), $request->filters());
     }
 
     /**
-     * @param  FilterRequest  $request
+     * @param  CollectionRequest  $request
      * @return array<AllowedSort>
      */
-    protected function sorts(FilterRequest $request): array
+    protected function sorts(CollectionRequest $request): array
     {
         return array_map(fn (Sort $sort) => $sort->allowedSort(), $request->sorts());
     }
 
     /**
-     * @param  FilterRequest  $request
+     * @param  CollectionRequest  $request
      * @return array<AllowedInclude|string>
      */
-    protected function includes(FilterRequest $request): array
+    protected function includes(CollectionRequest $request): array
     {
         return array_map(fn (Relation $include) => $include->allowedInclude(), $request->includes());
     }

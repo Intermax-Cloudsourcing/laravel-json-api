@@ -6,7 +6,7 @@ namespace Intermax\LaravelJsonApi\Tests\Requests;
 
 use Intermax\LaravelJsonApi\Filters\OperatorFilter;
 use Intermax\LaravelJsonApi\Includes\Relation;
-use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Requests\CollectionRequest;
 use Intermax\LaravelJsonApi\Requests\QueryResolver;
 use Intermax\LaravelJsonApi\ServiceProvider;
 use Intermax\LaravelJsonApi\Sorts\Sort;
@@ -23,7 +23,7 @@ class QueryResolverTest extends TestCase
     /** @test */
     public function it_adds_includes_to_the_query(): void
     {
-        $request = new class() extends FilterRequest
+        $request = new class() extends CollectionRequest
         {
             public function includes(): array
             {
@@ -47,7 +47,7 @@ class QueryResolverTest extends TestCase
     /** @test */
     public function it_adds_a_sort_to_the_query(): void
     {
-        $request = new class() extends FilterRequest
+        $request = new class() extends CollectionRequest
         {
             public function sorts(): array
             {
@@ -71,7 +71,7 @@ class QueryResolverTest extends TestCase
     /** @test */
     public function it_adds_a_filter_to_the_query(): void
     {
-        $request = new class() extends FilterRequest
+        $request = new class() extends CollectionRequest
         {
             public function filters(): array
             {

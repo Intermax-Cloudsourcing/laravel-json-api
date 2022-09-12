@@ -6,7 +6,7 @@ Laravel API is a package to quickly build an API according to the JSON:API speci
 - [Configuration](#configuration)
 - [Basic usage](#basic-usage)
 - [Query Parameters](#query-parameters)
-    * [FilterRequest](#filterrequest)
+    * [CollectionRequest](#collectionrequest)
     * [Controller](#controller)
     * [Filter types](#filter-types)
 - [OpenAPI generation](#openapi-generation)
@@ -92,19 +92,19 @@ You might want ways to apply filters, sorts and includes to your requests. With 
 /users?filter[isAdmin]=true&sort=name&include=team
 ```
 
-### FilterRequest
-With this package you can configure some predefined filters or add your own. You can also add includes and sorts. To do this you can add a `FilterRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `FilterRequest` needs to extend the `Intermax\LaravelJsonApi\Requests\FilterRequest`. It might look like this:
+### CollectionRequest
+With this package you can configure some predefined filters or add your own. You can also add includes and sorts. To do this you can add a `CollectionRequest` to your controller method. Essentially this is an extended [FormRequest](https://laravel.com/docs/8.x/validation#form-request-validation). Your custom `CollectionRequest` needs to extend the `Intermax\LaravelJsonApi\Requests\CollectionRequest`. It might look like this:
 
 ```php 
 namespace App\Http\Requests;
 
 use Intermax\LaravelJsonApi\Filters\ScopeFilter;
 use Intermax\LaravelJsonApi\Filters\OperatorFilter;
-use Intermax\LaravelJsonApi\Requests\FilterRequest;
+use Intermax\LaravelJsonApi\Requests\CollectionRequest;
 use Intermax\LaravelJsonApi\Sorts\Sort;
 use Intermax\LaravelJsonApi\Includes\Relation;
 
-class UserCollectionRequest extends FilterRequest
+class UserCollectionRequest extends CollectionRequest
 {
     public function filters(): array
     {
@@ -130,7 +130,7 @@ class UserCollectionRequest extends FilterRequest
 }
 ```
 
-This specific `FilterRequest` adds two filters, `filter[createdAt]` and `filter[isAdmin]`. To see how these specific filters work, see [filter types](#filter-types).
+This specific `CollectionRequest` adds two filters, `filter[createdAt]` and `filter[isAdmin]`. To see how these specific filters work, see [filter types](#filter-types).
 
 ### Controller
 To make the filters, includes and sorts actually do their magic, we need a little more. In the controller the `QueryResolver` needs to be used to apply the filters to the Eloquent query. Under the hood this uses the [laravel-query-builder](https://github.com/spatie/laravel-query-builder) package from spatie.
@@ -190,7 +190,7 @@ The open API package will scan for api routes, read FormRequests, determine ApiR
 
 There are a couple of things that need to be in place for this to work best:
 
-- Use the FilterRequest for 'collection-type' endpoints, even if you don't use Eloquent it will still be able to infer the query parameters. You can even validate query parameters with rules.
+- Use the CollectionRequest for 'collection-type' endpoints, even if you don't use Eloquent it will still be able to infer the query parameters. You can even validate query parameters with rules.
 - Typehint the resource you want to return in your controller method.
 - Use FormRequest validation for your POST/PUT/PATCH endpoints and include all fields in it (even if they have no validation). The package uses this to determine the request body.
 - The package will get all your fields/attributes from the resource array.

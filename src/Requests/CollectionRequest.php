@@ -11,7 +11,7 @@ use Intermax\LaravelJsonApi\Sorts\Contracts\Sort;
 use Intermax\LaravelOpenApi\Contracts\HasQueryParameters;
 use Intermax\LaravelOpenApi\Contracts\QueryParameter;
 
-abstract class FilterRequest extends FormRequest implements HasQueryParameters
+abstract class CollectionRequest extends FormRequest implements HasQueryParameters
 {
     public function authorize(): bool
     {
