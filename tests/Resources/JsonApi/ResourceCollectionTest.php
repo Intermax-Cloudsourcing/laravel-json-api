@@ -82,10 +82,6 @@ class ResourceCollectionTest extends TestCase
         $this->assertTrue($isFound);
     }
 
-    /**
-     * @param  Collection  $collection
-     * @return LengthAwarePaginator
-     */
     protected function createPaginator(Collection $collection): LengthAwarePaginator
     {
         $paginator = new LengthAwarePaginator($collection, $collection->count(), 15);
