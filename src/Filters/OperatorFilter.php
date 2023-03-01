@@ -45,9 +45,6 @@ class OperatorFilter implements QueryBuilderFilter, Filter
     protected string $type;
 
     /**
-     * @param  string  $fieldName
-     * @param  string|null  $columnName
-     * @param  string  $type
      * @param  array|string[]|null  $allowedOperators
      */
     public function __construct(
@@ -70,7 +67,6 @@ class OperatorFilter implements QueryBuilderFilter, Filter
     /**
      * @param  Builder<Model>  $query
      * @param  mixed  $value
-     * @param  string  $property
      */
     public function __invoke(Builder $query, $value, string $property): void
     {

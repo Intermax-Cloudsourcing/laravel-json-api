@@ -19,7 +19,6 @@ class QueryResolver
     /**
      * @template TModelClass of Model
      *
-     * @param  CollectionRequest  $request
      * @param  Builder<TModelClass>  $query
      */
     public function resolve(CollectionRequest $request, Builder $query): void
@@ -46,7 +45,6 @@ class QueryResolver
     }
 
     /**
-     * @param  CollectionRequest  $request
      * @return array<AllowedFilter>
      */
     protected function filters(CollectionRequest $request): array
@@ -55,7 +53,6 @@ class QueryResolver
     }
 
     /**
-     * @param  CollectionRequest  $request
      * @return array<AllowedSort>
      */
     protected function sorts(CollectionRequest $request): array
@@ -64,7 +61,6 @@ class QueryResolver
     }
 
     /**
-     * @param  CollectionRequest  $request
      * @return array<AllowedInclude|string>
      */
     protected function includes(CollectionRequest $request): array

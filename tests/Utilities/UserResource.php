@@ -11,10 +11,6 @@ use Intermax\LaravelJsonApi\Resources\RelationType;
 
 class UserResource extends JsonApiResource
 {
-    /**
-     * @param  Request  $request
-     * @return array
-     */
     protected function getAttributes(Request $request): array
     {
         return [
@@ -25,9 +21,6 @@ class UserResource extends JsonApiResource
     }
 
     /**
-     * @param  Request  $request
-     * @return array
-     *
      * @throws JsonApiException
      */
     protected function getRelations(Request $request): array
@@ -51,7 +44,6 @@ class UserResource extends JsonApiResource
     }
 
     /**
-     * @param  Request  $request
      * @return array|string[]
      *
      * @throws JsonApiException

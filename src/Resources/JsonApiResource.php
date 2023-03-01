@@ -79,7 +79,6 @@ abstract class JsonApiResource extends JsonResource
     /**
      * Expects an associative array of the attributes you want to include in the response, excluding id.
      *
-     * @param  Request  $request
      * @return array<string,mixed>
      */
     abstract protected function getAttributes(Request $request): array;
@@ -98,7 +97,6 @@ abstract class JsonApiResource extends JsonResource
      *     ]
      * ].
      *
-     * @param  Request  $request
      * @return array<string,array<string, string>>|null
      */
     protected function getRelations(Request $request): ?array
@@ -110,7 +108,6 @@ abstract class JsonApiResource extends JsonResource
      * Expects an associative array of links for the resource, preferably use the route helper to generate links (eg:
      * ['self' => route('articles.show', ['article' => 1])] ).
      *
-     * @param  Request  $request
      * @return array<string,string>|null
      */
     protected function getLinks(Request $request): ?array
@@ -119,8 +116,6 @@ abstract class JsonApiResource extends JsonResource
     }
 
     /**
-     * @return string
-     *
      * @throws JsonApiException
      */
     protected function getId(): string
@@ -133,8 +128,6 @@ abstract class JsonApiResource extends JsonResource
     }
 
     /**
-     * @return string
-     *
      * @throws ReflectionException
      */
     protected function getType(): string
@@ -145,7 +138,6 @@ abstract class JsonApiResource extends JsonResource
     }
 
     /**
-     * @param  Request  $request
      * @return array<mixed>|null
      */
     protected function discoverRelations(Request $request): ?array
@@ -204,7 +196,6 @@ abstract class JsonApiResource extends JsonResource
     }
 
     /**
-     * @param  string  $definedRelation
      * @return mixed
      */
     protected function getRelationData(string $definedRelation)

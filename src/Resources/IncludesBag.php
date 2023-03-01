@@ -24,7 +24,6 @@ class IncludesBag implements Arrayable
 
     /**
      * @param  array<mixed>  $resource
-     * @return void
      */
     public function add(array $resource): void
     {
