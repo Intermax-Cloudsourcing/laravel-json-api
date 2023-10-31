@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\Filters\Filter as QueryBuilderFilter;
 /**
  * @implements QueryBuilderFilter<Model>
  */
-class OperatorFilter implements QueryBuilderFilter, Filter
+class OperatorFilter implements Filter, QueryBuilderFilter
 {
     /**
      * @var array|string[]
@@ -49,9 +49,9 @@ class OperatorFilter implements QueryBuilderFilter, Filter
      */
     public function __construct(
         string $fieldName,
-        ?string $columnName = null,
+        string $columnName = null,
         string $type = 'string',
-        ?array $allowedOperators = null
+        array $allowedOperators = null
     ) {
         $this->fieldName = $fieldName;
         $this->columnName = $columnName;

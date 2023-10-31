@@ -9,6 +9,7 @@ Laravel API is a package to quickly build an API according to the JSON:API speci
     * [CollectionRequest](#collectionrequest)
     * [Controller](#controller)
     * [Filter types](#filter-types)
+- [MutationRequest](#mutation-requests)
 - [OpenAPI generation](#openapi-generation)
 
 ## Installation
@@ -181,6 +182,50 @@ new OperatorFilter(
     ], 
 );
 ```
+
+## Mutation Requests
+For POST, PUT or PATCH requests this package provides an extendable base request for convenience. Instead of a regular `FormRequest` you know from Laravel it should extend the `MutationRequest`. 
+This class helps you to adhere to the JSON:API specification for your requests:
+- It rejects requests without the correct content type (`application/vnd.api+json`)
+- The implementing class can provide rules for the `attributes` and `relationships` fields
+- It has methods to retrieve `validatedAttributes` and `validatedRelationships`
+
+> ⚠️ **WARNING**: Be aware that if you were previously not checking for the content type you could easily create a breaking change in your application. 
+
+### Usage
+An example implementation may look like this:
+
+```php
+use Intermax\LaravelJsonApi\Requests\MutationRequest;
+
+class UserUpdateRequest extends MutationRequest
+{
+    protected function type(): string
+    {
+        return 'users';
+    }
+    
+    protected function attributeRules(): array
+    {
+        return [
+            'email' => ['email'],
+            'name' => ['string'],
+        ]
+    }
+}
+```
+
+And in the controller you can use the methods to retrieve validated fields:
+
+```php
+public function update(UserUpdateRequest $request, User $user): UserResource
+{
+    $user->update($request->validatedAttributes());
+    
+    return new UserResource($user);
+}
+```
+
 
 ## OpenAPI Generation
 
