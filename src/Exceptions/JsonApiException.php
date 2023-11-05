@@ -26,7 +26,7 @@ class JsonApiException extends HttpException implements RenderableError
         ?string $message = '',
         Throwable $previous = null,
         ?int $code = 0,
-        ?iterable $errors = null,
+        iterable $errors = null,
     ) {
         parent::__construct($statusCode, (string) $message, $previous, [], (int) $code);
 
