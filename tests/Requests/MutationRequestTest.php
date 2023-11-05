@@ -42,8 +42,8 @@ class MutationRequestTest extends TestCase
 
         $this->assertEquals([
             'data.id' => [
-                'required',
                 'string',
+                'required',
             ],
             'data.type' => [
                 'required',

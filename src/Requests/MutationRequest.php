@@ -36,7 +36,7 @@ abstract class MutationRequest extends FormRequest
 
         // 'id' is required in JSON:API specification when updating a resource.
         if ($this->method() !== 'POST') {
-            $rules['data.id'] = array_merge(['required'], $rules['data.id']);
+            $rules['data.id'][] = 'required';
         }
 
         $rules = $this->mergeIntoRules(
