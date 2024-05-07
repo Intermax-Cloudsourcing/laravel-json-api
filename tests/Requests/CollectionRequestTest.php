@@ -11,10 +11,11 @@ use Intermax\LaravelJsonApi\Includes\Relation;
 use Intermax\LaravelJsonApi\Requests\CollectionRequest;
 use Intermax\LaravelJsonApi\Sorts\Sort;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CollectionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_outputs_parameters(): void
     {
         $request = new class() extends CollectionRequest
@@ -42,7 +43,7 @@ class CollectionRequestTest extends TestCase
         $this->assertNotNull($queryParameters->where('name', 'filter[scope]'));
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_includes_and_sorts_and_filters_as_parameters()
     {
         $request = new class() extends CollectionRequest

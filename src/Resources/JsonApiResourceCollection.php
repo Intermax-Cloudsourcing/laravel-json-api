@@ -14,7 +14,7 @@ class JsonApiResourceCollection extends ResourceCollection
 {
     use IncludesGathering;
 
-    public function __construct($resource, IncludesBag $included = null)
+    public function __construct($resource, ?IncludesBag $included = null)
     {
         $resource = $this->preparePaginationFields($resource);
         $this->setIncludesBag($included);

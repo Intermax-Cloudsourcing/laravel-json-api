@@ -49,9 +49,9 @@ class OperatorFilter implements Filter, QueryBuilderFilter
      */
     public function __construct(
         string $fieldName,
-        string $columnName = null,
+        ?string $columnName = null,
         string $type = 'string',
-        array $allowedOperators = null
+        ?array $allowedOperators = null
     ) {
         $this->fieldName = $fieldName;
         $this->columnName = $columnName;
