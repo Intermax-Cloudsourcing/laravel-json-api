@@ -6,11 +6,12 @@ namespace Intermax\LaravelJsonApi\Tests\Requests;
 
 use Intermax\LaravelJsonApi\Requests\MutationRequest;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MutationRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_merges_attributes_and_relationship_rules_into_json_api_rules(): void
     {
         $request = new class() extends MutationRequest
@@ -66,7 +67,7 @@ class MutationRequestTest extends TestCase
         ], $rules);
     }
 
-    /** @test */
+    #[Test]
     public function it_rejects_the_request_if_the_json_api_content_type_is_not_used(): void
     {
         $formRequest = new class() extends MutationRequest

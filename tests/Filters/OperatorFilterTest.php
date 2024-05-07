@@ -7,6 +7,7 @@ namespace Intermax\LaravelJsonApi\Tests\Filters;
 use Intermax\LaravelJsonApi\Filters\OperatorFilter;
 use Intermax\LaravelJsonApi\Tests\Utilities\User;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -28,7 +29,7 @@ class OperatorFilterTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_a_greater_than_query()
     {
         request()->query->set('filter', [
@@ -37,11 +38,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` > ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" > ?', $query->toSql());
         $this->assertEquals(2, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_an_equals_query()
     {
         request()->query->set('filter', [
@@ -50,11 +51,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` = ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" = ?', $query->toSql());
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_a_greater_than_or_equals_query()
     {
         request()->query->set('filter', [
@@ -63,11 +64,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` >= ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" >= ?', $query->toSql());
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_a_lesser_than_or_equals_query()
     {
         request()->query->set('filter', [
@@ -76,11 +77,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` <= ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" <= ?', $query->toSql());
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_a_lesser_than_query()
     {
         request()->query->set('filter', [
@@ -89,11 +90,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` < ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" < ?', $query->toSql());
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_a_not_equal_query()
     {
         request()->query->set('filter', [
@@ -102,11 +103,11 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` <> ?', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" <> ?', $query->toSql());
         $this->assertEquals(3, $query->getBindings()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_produces_an_in_query()
     {
         request()->query->set('filter', [
@@ -115,7 +116,7 @@ class OperatorFilterTest extends TestCase
 
         $query = $this->createQuery('id');
 
-        $this->assertEquals('select * from `users` where `id` in (?, ?, ?)', $query->toSql());
+        $this->assertEquals('select * from "users" where "id" in (?, ?, ?)', $query->toSql());
         $this->assertCount(3, $query->getBindings());
     }
 

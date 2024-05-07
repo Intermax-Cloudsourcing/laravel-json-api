@@ -12,6 +12,7 @@ use Intermax\LaravelJsonApi\ServiceProvider;
 use Intermax\LaravelJsonApi\Sorts\Sort;
 use Intermax\LaravelJsonApi\Tests\Utilities\User;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class QueryResolverTest extends TestCase
 {
@@ -20,7 +21,7 @@ class QueryResolverTest extends TestCase
         return [ServiceProvider::class];
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_includes_to_the_query(): void
     {
         $request = new class() extends CollectionRequest
@@ -44,7 +45,7 @@ class QueryResolverTest extends TestCase
         $this->assertNotNull($query->getEagerLoads()['friends'] ?? null);
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_a_sort_to_the_query(): void
     {
         $request = new class() extends CollectionRequest
@@ -65,10 +66,10 @@ class QueryResolverTest extends TestCase
         $query = User::query();
         $queryResolver->resolve($request, $query);
 
-        $this->assertStringContainsString('order by `name` asc', $query->toSql());
+        $this->assertStringContainsString('order by "name" asc', $query->toSql());
     }
 
-    /** @test */
+    #[Test]
     public function it_adds_a_filter_to_the_query(): void
     {
         $request = new class() extends CollectionRequest
@@ -89,7 +90,7 @@ class QueryResolverTest extends TestCase
         $query = User::query();
         $queryResolver->resolve($request, $query);
 
-        $this->assertStringContainsString('where `name` = ?', $query->toSql());
+        $this->assertStringContainsString('where "name" = ?', $query->toSql());
         $this->assertContains('Test', $query->getBindings());
     }
 }

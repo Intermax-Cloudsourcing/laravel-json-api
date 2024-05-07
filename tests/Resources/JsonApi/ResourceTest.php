@@ -9,6 +9,7 @@ use Intermax\LaravelJsonApi\Tests\Utilities\CreateUserTrait;
 use Intermax\LaravelJsonApi\Tests\Utilities\UserResource;
 use Intermax\LaravelJsonApi\Tests\Utilities\UserResourceWithCustomRelation;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceTest extends TestCase
 {
@@ -21,7 +22,7 @@ class ResourceTest extends TestCase
         $this->idIncrement = 1;
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_attributes()
     {
         $user = $this->createUser();
@@ -35,7 +36,7 @@ class ResourceTest extends TestCase
         $this->assertEquals($user->email, $response->data->attributes->email);
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_relations_with_includes()
     {
         $user = $this->createUser();
@@ -62,7 +63,7 @@ class ResourceTest extends TestCase
         $this->assertTrue($bestFriend && $bestFriend->data->type === 'users');
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_relations_with_links_and_without_includes()
     {
         $user = $this->createUser();
@@ -78,7 +79,7 @@ class ResourceTest extends TestCase
         $this->assertFalse(isset($response->includes));
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_with_a_custom_relation()
     {
         $user = $this->createUser();

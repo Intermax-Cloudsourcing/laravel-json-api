@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Intermax\LaravelJsonApi\Tests\Utilities\CreateUserTrait;
 use Intermax\LaravelJsonApi\Tests\Utilities\UserResourceCollection;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceCollectionTest extends TestCase
 {
@@ -21,7 +22,7 @@ class ResourceCollectionTest extends TestCase
         $this->idIncrement = 1;
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_a_collection_with_pagination()
     {
         $collection = new Collection([
@@ -46,7 +47,7 @@ class ResourceCollectionTest extends TestCase
         $this->assertFalse(isset($response->included));
     }
 
-    /** @test */
+    #[Test]
     public function it_outputs_a_collection_with_nested_includes()
     {
         $topUser = $this->createUser();

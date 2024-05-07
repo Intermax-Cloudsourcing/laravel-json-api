@@ -16,8 +16,8 @@ use Intermax\LaravelJsonApi\Exceptions\Handler;
 use Intermax\LaravelJsonApi\Exceptions\JsonApiException;
 use Intermax\LaravelJsonApi\Middleware\RenderJsonApiExceptions;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Throwable;
 
 class ExceptionHandlerTest extends TestCase
 {
@@ -30,11 +30,7 @@ class ExceptionHandlerTest extends TestCase
         $this->request = \request();
     }
 
-    /**
-     * @test
-     *
-     * @throws BindingResolutionException
-     */
+    #[Test]
     public function it_is_registered_when_middleware_is_added()
     {
         $handler = $this->getHandler();
@@ -42,12 +38,7 @@ class ExceptionHandlerTest extends TestCase
         $this->assertInstanceOf(Handler::class, $handler);
     }
 
-    /**
-     * @test
-     *
-     * @throws BindingResolutionException
-     * @throws Throwable
-     */
+    #[Test]
     public function it_renders_an_exception_in_json_api_format()
     {
         $handler = $this->getHandler();
@@ -62,7 +53,7 @@ class ExceptionHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_respects_the_status_code_of_the_exception()
     {
         $response = $this->getHandler()->render($this->request, new HttpException(419));
@@ -73,7 +64,7 @@ class ExceptionHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_renders_an_authorization_exception()
     {
         $response = $this->getHandler()->render(
@@ -89,12 +80,7 @@ class ExceptionHandlerTest extends TestCase
         $this->assertEquals('My authorization exception.', $content->errors[0]->title);
     }
 
-    /**
-     * @test
-     *
-     * @throws BindingResolutionException
-     * @throws Throwable
-     */
+    #[Test]
     public function it_renders_a_validation_exception_in_json_api_format()
     {
         $handler = $this->getHandler();
@@ -118,12 +104,7 @@ class ExceptionHandlerTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @throws BindingResolutionException
-     * @throws Throwable
-     */
+    #[Test]
     public function it_renders_a_json_api_exception_in_json_api_format()
     {
         $handler = $this->getHandler();
