@@ -8,8 +8,7 @@ class Relation implements Contracts\Relation
 {
     public function __construct(
         protected string $name
-    ) {
-    }
+    ) {}
 
     public function allowedInclude(): string
     {

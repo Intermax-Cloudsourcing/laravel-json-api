@@ -51,8 +51,8 @@ abstract class JsonApiResource extends JsonResource
             'id' => $this->getId(),
             'type' => $this->getType(),
             'attributes' => $this->getAttributes($request),
-            'relationships' => $this->discoverRelations($request) ?: new MissingValue(),
-            'links' => $this->getLinks($request) ?: new MissingValue(),
+            'relationships' => $this->discoverRelations($request) ?: new MissingValue,
+            'links' => $this->getLinks($request) ?: new MissingValue,
         ];
     }
 

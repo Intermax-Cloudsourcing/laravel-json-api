@@ -19,7 +19,7 @@ class IncludesBag implements Arrayable
 
     public function __construct()
     {
-        $this->items = new Collection();
+        $this->items = new Collection;
     }
 
     /**

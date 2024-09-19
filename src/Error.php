@@ -24,6 +24,5 @@ class Error
          * @var array<mixed>|null
          */
         public readonly ?array $links = null,
-    ) {
-    }
+    ) {}
 }

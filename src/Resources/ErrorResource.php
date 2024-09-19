@@ -31,14 +31,14 @@ class ErrorResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->resource->id ?? new MissingValue(),
-            'status' => $this->resource->status ?? new MissingValue(),
-            'code' => $this->resource->code ?? new MissingValue(),
-            'title' => $this->resource->title ?? new MissingValue(),
-            'detail' => $this->resource->detail ?? new MissingValue(),
-            'source' => $this->resource->source ?? new MissingValue(),
-            'meta' => $this->resource->meta ?? new MissingValue(),
-            'links' => $this->resource->links ?? new MissingValue(),
+            'id' => $this->resource->id ?? new MissingValue,
+            'status' => $this->resource->status ?? new MissingValue,
+            'code' => $this->resource->code ?? new MissingValue,
+            'title' => $this->resource->title ?? new MissingValue,
+            'detail' => $this->resource->detail ?? new MissingValue,
+            'source' => $this->resource->source ?? new MissingValue,
+            'meta' => $this->resource->meta ?? new MissingValue,
+            'links' => $this->resource->links ?? new MissingValue,
         ];
     }
 }

@@ -10,7 +10,5 @@ class RelationType
 
     public const ONE = 'one';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 }

@@ -10,7 +10,7 @@ trait IncludesGathering
 
     public function initializeIncludesBag(): void
     {
-        $this->included = new IncludesBag();
+        $this->included = new IncludesBag;
     }
 
     /**
