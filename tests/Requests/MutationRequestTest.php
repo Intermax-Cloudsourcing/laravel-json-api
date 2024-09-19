@@ -14,7 +14,7 @@ class MutationRequestTest extends TestCase
     #[Test]
     public function it_merges_attributes_and_relationship_rules_into_json_api_rules(): void
     {
-        $request = new class() extends MutationRequest
+        $request = new class extends MutationRequest
         {
             public function type(): string
             {
@@ -70,7 +70,7 @@ class MutationRequestTest extends TestCase
     #[Test]
     public function it_rejects_the_request_if_the_json_api_content_type_is_not_used(): void
     {
-        $formRequest = new class() extends MutationRequest
+        $formRequest = new class extends MutationRequest
         {
             public function type(): string
             {

@@ -17,8 +17,7 @@ class RenderJsonApiExceptions
     public function __construct(
         protected Application $app,
         protected Repository $config,
-    ) {
-    }
+    ) {}
 
     /**
      * Handle an incoming request.

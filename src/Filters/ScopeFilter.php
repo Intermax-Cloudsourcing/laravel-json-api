@@ -19,8 +19,7 @@ class ScopeFilter implements Filter
         protected ?array $options = null,
         protected mixed $example = null,
         protected ?string $scopeName = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<QueryParameter>

@@ -20,8 +20,7 @@ class Handler implements ExceptionHandlerContract
     public function __construct(
         protected ExceptionHandlerContract $defaultHandler,
         protected Repository $config
-    ) {
-    }
+    ) {}
 
     /**
      * Render an exception into an HTTP response.
@@ -49,7 +48,7 @@ class Handler implements ExceptionHandlerContract
 
     protected function renderValidationException(ValidationException $e, Request $request): Response
     {
-        $errors = new Collection();
+        $errors = new Collection;
 
         foreach ($e->errors() as $field => $validationErrors) {
             foreach ($validationErrors as $validationError) {

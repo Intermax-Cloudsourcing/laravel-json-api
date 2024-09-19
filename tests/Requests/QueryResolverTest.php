@@ -24,7 +24,7 @@ class QueryResolverTest extends TestCase
     #[Test]
     public function it_adds_includes_to_the_query(): void
     {
-        $request = new class() extends CollectionRequest
+        $request = new class extends CollectionRequest
         {
             public function includes(): array
             {
@@ -48,7 +48,7 @@ class QueryResolverTest extends TestCase
     #[Test]
     public function it_adds_a_sort_to_the_query(): void
     {
-        $request = new class() extends CollectionRequest
+        $request = new class extends CollectionRequest
         {
             public function sorts(): array
             {
@@ -72,7 +72,7 @@ class QueryResolverTest extends TestCase
     #[Test]
     public function it_adds_a_filter_to_the_query(): void
     {
-        $request = new class() extends CollectionRequest
+        $request = new class extends CollectionRequest
         {
             public function filters(): array
             {

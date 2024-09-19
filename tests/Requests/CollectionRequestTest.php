@@ -18,7 +18,7 @@ class CollectionRequestTest extends TestCase
     #[Test]
     public function it_outputs_parameters(): void
     {
-        $request = new class() extends CollectionRequest
+        $request = new class extends CollectionRequest
         {
             public function filters(): array
             {
@@ -46,7 +46,7 @@ class CollectionRequestTest extends TestCase
     #[Test]
     public function it_outputs_includes_and_sorts_and_filters_as_parameters()
     {
-        $request = new class() extends CollectionRequest
+        $request = new class extends CollectionRequest
         {
             public function includes(): array
             {
