@@ -6,6 +6,7 @@ namespace Intermax\LaravelJsonApi\Requests;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Intermax\LaravelJsonApi\Filters\Contracts\Filter;
 use Intermax\LaravelJsonApi\Includes\Contracts\Relation;
 use Intermax\LaravelJsonApi\Sorts\Contracts\Sort;
@@ -13,6 +14,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+
+use function array_map;
 
 class QueryResolver
 {
@@ -39,7 +42,7 @@ class QueryResolver
             $builder->allowedSorts($sorts);
         }
 
-        if (! empty($includes)) {
+        if (! $includes->isEmpty()) {
             $builder->allowedIncludes($includes);
         }
     }
@@ -61,10 +64,10 @@ class QueryResolver
     }
 
     /**
-     * @return array<AllowedInclude|string>
+     * @return Collection<int, AllowedInclude|string>
      */
-    protected function includes(CollectionRequest $request): array
+    protected function includes(CollectionRequest $request): Collection
     {
-        return array_map(fn (Relation $include) => $include->allowedInclude(), $request->includes());
+        return new Collection(array_map(fn (Relation $include) => $include->allowedInclude(), $request->includes()));
     }
 }

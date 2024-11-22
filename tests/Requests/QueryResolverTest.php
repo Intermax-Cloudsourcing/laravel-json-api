@@ -30,11 +30,14 @@ class QueryResolverTest extends TestCase
             {
                 return [
                     new Relation('friends'),
+                    new Relation('enemies', 'foes'),
                 ];
             }
         };
 
-        request()->replace(['include' => 'friends']);
+        request()->replace([
+            'include' => 'friends,foes',
+        ]);
 
         /** @var QueryResolver $queryResolver */
         $queryResolver = $this->app->make(QueryResolver::class);
@@ -43,6 +46,7 @@ class QueryResolverTest extends TestCase
         $queryResolver->resolve($request, $query);
 
         $this->assertNotNull($query->getEagerLoads()['friends'] ?? null);
+        $this->assertNotNull($query->getEagerLoads()['enemies'] ?? null);
     }
 
     #[Test]
