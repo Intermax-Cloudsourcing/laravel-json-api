@@ -13,6 +13,7 @@ use Intermax\LaravelJsonApi\Sorts\Sort;
 use Intermax\LaravelJsonApi\Tests\Utilities\User;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class QueryResolverTest extends TestCase
 {
@@ -35,6 +36,8 @@ class QueryResolverTest extends TestCase
         };
 
         request()->replace(['include' => 'friends']);
+
+        app()->instance(QueryBuilderRequest::class, QueryBuilderRequest::fromRequest(request()));
 
         /** @var QueryResolver $queryResolver */
         $queryResolver = $this->app->make(QueryResolver::class);
@@ -60,6 +63,8 @@ class QueryResolverTest extends TestCase
 
         request()->replace(['sort' => 'name']);
 
+        app()->instance(QueryBuilderRequest::class, QueryBuilderRequest::fromRequest(request()));
+
         /** @var QueryResolver $queryResolver */
         $queryResolver = $this->app->make(QueryResolver::class);
 
@@ -83,6 +88,8 @@ class QueryResolverTest extends TestCase
         };
 
         request()->replace(['filter' => ['name' => 'Test']]);
+
+        app()->instance(QueryBuilderRequest::class, QueryBuilderRequest::fromRequest(request()));
 
         /** @var QueryResolver $queryResolver */
         $queryResolver = $this->app->make(QueryResolver::class);

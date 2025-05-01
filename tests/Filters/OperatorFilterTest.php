@@ -10,6 +10,7 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class OperatorFilterTest extends TestCase
 {
@@ -122,6 +123,8 @@ class OperatorFilterTest extends TestCase
 
     protected function createQuery($field): QueryBuilder
     {
+        app()->instance(QueryBuilderRequest::class, QueryBuilderRequest::fromRequest(request()));
+
         return QueryBuilder::for(User::class)
             ->allowedFilters([
                 AllowedFilter::custom($field, new OperatorFilter($field)),
