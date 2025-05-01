@@ -14,7 +14,7 @@ trait IncludesGathering
     }
 
     /**
-     * @param  IncludesBag  $included
+     * @param  ?mixed  $included
      */
     public function setIncludesBag($included = null): void
     {

@@ -11,5 +11,3 @@ parameters:
     excludePaths:
         - %currentWorkingDirectory%/tests/
         - %currentWorkingDirectory%/vendor/
-
-    checkMissingIterableValueType: true
