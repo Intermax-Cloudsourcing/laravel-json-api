@@ -74,23 +74,21 @@ class JsonApiResourceCollection extends ResourceCollection
         $resource->setPageName('page[number]')
             ->withQueryString();
 
-        $paginated = $resource->toArray();
-
         $this->with = [
             'links' => [
-                'first' => $paginated['first_page_url'],
-                'last' => $paginated['last_page_url'],
-                'prev' => $paginated['prev_page_url'],
-                'next' => $paginated['next_page_url'],
+                'first' => $resource->url(1),
+                'last' => $resource->url($resource->lastPage()),
+                'prev' => $resource->previousPageUrl(),
+                'next' => $resource->nextPageUrl(),
             ],
             'meta' => [
                 'currentPage' => $resource->currentPage(),
                 'lastPage' => $resource->lastPage(),
-                'from' => $paginated['from'],
-                'to' => $paginated['to'],
+                'from' => $resource->firstItem(),
+                'to' => $resource->lastItem(),
                 'total' => $resource->total(),
                 'pageSize' => $resource->perPage(),
-                'path' => $paginated['path'],
+                'path' => $resource->path(),
             ],
         ];
 
