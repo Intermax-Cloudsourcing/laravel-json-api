@@ -32,15 +32,15 @@ class QueryResolver
         $builder = QueryBuilder::for($query);
 
         if (! empty($filters)) {
-            $builder->allowedFilters($filters);
+            $builder->allowedFilters(...array_values($filters));
         }
 
         if (! empty($sorts)) {
-            $builder->allowedSorts($sorts);
+            $builder->allowedSorts(...array_values($sorts));
         }
 
         if (! empty($includes)) {
-            $builder->allowedIncludes($includes);
+            $builder->allowedIncludes(...array_values($includes));
         }
     }
 

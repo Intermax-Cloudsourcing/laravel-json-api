@@ -126,8 +126,8 @@ class OperatorFilterTest extends TestCase
         app()->instance(QueryBuilderRequest::class, QueryBuilderRequest::fromRequest(request()));
 
         return QueryBuilder::for(User::class)
-            ->allowedFilters([
+            ->allowedFilters(
                 AllowedFilter::custom($field, new OperatorFilter($field)),
-            ]);
+            );
     }
 }
